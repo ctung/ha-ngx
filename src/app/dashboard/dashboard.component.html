@@ -1,0 +1,14 @@
+<mat-drawer-container fullscreen>
+  <mat-drawer #drawer mode="over">
+    <app-map></app-map>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar>
+      <button mat-button (click)="drawer.toggle()">
+        <mat-icon>home</mat-icon>
+      </button>
+      <span>Family Room</span>
+    </mat-toolbar>
+    <app-panel></app-panel>
+  </mat-drawer-content>
+</mat-drawer-container>
