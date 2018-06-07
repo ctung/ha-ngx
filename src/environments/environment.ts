@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  ws_url: 'ws://10.0.0.2:8123/api/websocket'
 };
 
 /*

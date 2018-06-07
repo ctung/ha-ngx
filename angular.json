@@ -25,9 +25,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/raphael/raphael.min.js"
-            ]
+            "scripts": [ ]
           },
           "configurations": {
             "production": {
