@@ -7,12 +7,19 @@ import { environment } from '../environments/environment';
 })
 export class WebsocketService {
   ws: WebSocket;
+  socket: Observable<string>;
+  constructor() {
 
-  constructor() { }
+  }
 
-  createObservableSocket(): Observable<string> {
+  getSocket(): Observable<string> {
+    return this.socket;
+  }
+
+  connect(): void {
+    console.log('connecting');
     this.ws = new WebSocket(environment.ws_url);
-    return new Observable(observer => {
+    this.socket = new Observable(observer => {
       this.ws.onmessage = (event) => observer.next(event.data);
       this.ws.onerror = (event) => observer.error(event);
       this.ws.onclose = (event) => observer.complete();
