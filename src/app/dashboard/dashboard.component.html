@@ -1,13 +1,13 @@
 <mat-drawer-container fullscreen>
   <mat-drawer #drawer mode="over">
-    <app-map></app-map>
+    <app-map (myEvent)="parentMethod($event)"></app-map>
   </mat-drawer>
   <mat-drawer-content>
     <mat-toolbar>
-      <button mat-button (click)="drawer.toggle()">
+      <button #home mat-button (click)="drawer.toggle()">
         <mat-icon>home</mat-icon>
       </button>
-      <span>Family Room</span>
+      <span>{{room}}</span>
     </mat-toolbar>
     <app-panel></app-panel>
   </mat-drawer-content>

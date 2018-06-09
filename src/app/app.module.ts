@@ -22,7 +22,9 @@ import {
   MatFormFieldModule,
   MatProgressSpinnerModule,
   MatButtonModule,
-  MatInputModule
+  MatInputModule,
+  MatSliderModule,
+  MatButtonToggleModule
  } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -47,7 +49,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatSliderModule,
+    MatButtonToggleModule
   ],
   providers: [AuthGuardService, AuthService, WebsocketService],
   bootstrap: [AppComponent]
