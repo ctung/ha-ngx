@@ -8,9 +8,8 @@ import { environment } from '../environments/environment';
 export class WebsocketService {
   ws: WebSocket;
   socket: Observable<string>;
-  constructor() {
 
-  }
+  constructor() {}
 
   getSocket(): Observable<string> {
     return this.socket;
