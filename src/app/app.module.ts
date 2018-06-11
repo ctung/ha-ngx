@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuardService } from './auth-guard.service';
 import { AuthService } from './auth.service';
 import { WebsocketService } from './websocket.service';
+import { HassService } from './hass.service';
 
 import { LoginComponent } from './login.component';
 import { MapComponent } from './map/map.component';
@@ -53,7 +54,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatSliderModule,
     MatButtonToggleModule
   ],
-  providers: [AuthGuardService, AuthService, WebsocketService],
+  providers: [AuthGuardService, AuthService, WebsocketService, HassService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
-import { MatDrawer, MatButton } from '@angular/material';
+import { MatDrawer } from '@angular/material';
+import { HassService } from '../hass.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,8 +10,9 @@ import { MatDrawer, MatButton } from '@angular/material';
 export class DashboardComponent implements OnInit {
   room = 'Family Room';
   @ViewChild('drawer') drawer: MatDrawer;
-  @ViewChild('home') homeButton: MatButton;
-  constructor() { }
+  constructor(
+    private hassService: HassService
+  ) { }
 
   ngOnInit() {
   }
