@@ -13,42 +13,26 @@ export class HassService {
     private wsService: WebsocketService
   ) {
     this.socketHandler();
-    this.getConfig();
-    this.getStates();
+    this.callService({ type: 'get_config' }, (resp: Object) => this.config = resp);
+    this.callService({ type: 'get_states' }, (resp: Object) => this.states = resp);
   }
 
   socketHandler() {
     this.wsService.getSocket()
       .subscribe(data => {
-        const obj = JSON.parse(data);
-        console.log(obj);
-        if (obj.hasOwnProperty('id') && this.dataHandler.hasOwnProperty(obj.id)) {
-          this.dataHandler[obj.id](obj.results);
-          delete this.dataHandler[obj.id];
+        const resp = JSON.parse(data);
+        console.log(resp);
+        if (resp.hasOwnProperty('id') && resp.type === 'result' && this.dataHandler.hasOwnProperty(resp.id)) {
+          this.dataHandler[resp.id](resp.results);
+          delete this.dataHandler[resp.id];
         }
       });
   }
 
-  callService(msg: Object, callback: (obj: Object) => void) {
+  callService(msg: Object, callback: (resp: Object) => any) {
     msg['id'] = + new Date();
     this.dataHandler[msg['id']] = callback;
     this.wsService.sendMessage(JSON.stringify(msg));
-  }
-
-  getConfig() {
-    this.callService(
-      { type: 'get_config' },
-      function (obj: Object) {
-        this.config = obj;
-      });
-  }
-
-  getStates() {
-    this.callService(
-      { type: 'get_states' },
-      function (obj: Object) {
-        this.states = obj;
-      });
   }
 
 }
