@@ -16,7 +16,7 @@ export class MapComponent implements OnInit {
     const g = s.group();
     const fplan = Snap.load('../../assets/cape_fplan2.svg', (f) => {
         g.append(f);
-        s.select('#rect5204').click(() => this.myEvent.emit('kitchen') );
+        s.select('g[inkscape\\:label="kitchen"]').click(() => this.myEvent.emit('kitchen') );
     });
   }
 
