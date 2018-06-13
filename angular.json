@@ -25,7 +25,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [ ]
+            "scripts": [ 
+              "./node_modules/snapsvg/dist/snap.svg-min.js"
+            ]
           },
           "configurations": {
             "production": {
