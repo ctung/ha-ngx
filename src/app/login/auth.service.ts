@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './user';
-import { WebsocketService } from './websocket.service';
+import { WebsocketService } from '../websocket.service';
 
 @Injectable()
 export class AuthService {

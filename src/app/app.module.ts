@@ -6,12 +6,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
-import { AuthGuardService } from './auth-guard.service';
-import { AuthService } from './auth.service';
+import { AuthGuardService } from './login/auth-guard.service';
+import { AuthService } from './login/auth.service';
 import { WebsocketService } from './websocket.service';
 import { HassService } from './hass.service';
 
-import { LoginComponent } from './login.component';
+import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
 import { PanelComponent } from './panel/panel.component';
 
