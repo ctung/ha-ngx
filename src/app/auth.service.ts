@@ -4,9 +4,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './user';
 import { WebsocketService } from './websocket.service';
 
-
-export const TOKEN_NAME = 'api_password';
-
 @Injectable()
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false); // {1}
@@ -25,7 +22,7 @@ export class AuthService {
   }
 
   socketHandler() {
-    this.wsService.getSocket()
+    this.wsService.socket
       .subscribe(data => {
         const resp = JSON.parse(data);
         // console.log(data);

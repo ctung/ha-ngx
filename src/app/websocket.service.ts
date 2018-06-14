@@ -9,11 +9,7 @@ export class WebsocketService {
   ws: WebSocket;
   socket: Observable<string>;
 
-  constructor() {}
-
-  getSocket(): Observable<string> {
-    return this.socket;
-  }
+  constructor() { }
 
   connect(): void {
     console.log('connecting');

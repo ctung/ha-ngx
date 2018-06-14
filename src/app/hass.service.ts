@@ -1,50 +1,49 @@
 import { Injectable } from '@angular/core';
 import { WebsocketService } from './websocket.service';
+import { BehaviorSubject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HassService {
   // store callbacks that can be run on socket responses, if the id matches
-  private dataHandler = {};
+  private id = 0;
 
   // store the hass config and state
+  // uses method from https://coryrylan.com/blog/angular-observable-data-services
   config: any;
-  states: any;
+  private _states: BehaviorSubject<any[]>;
+  private dataStore: {
+    states: any[]
+  };
 
   constructor(
     private wsService: WebsocketService
   ) {
-    this.socketHandler();
-    // initialize the config and states
-    this.callService({ type: 'get_config' }, (resp: Object) => this.config = resp);
-    this.callService({ type: 'get_states' }, (resp: Object) => this.states = resp);
-    // TODO: add handlers for state changes
-    // TODO: subscribe to state change events
+    this.dataStore = { states: [] };
+    this._states = <BehaviorSubject<any[]>>new BehaviorSubject([]);
+    this.loadStates();
   }
 
-  // Observe all messages coming from the socket
-  // If the response has a callback stored that matches the id, then call the callback on the response.results
-  socketHandler() {
-    this.wsService.getSocket()
+  get states() {
+    return this._states.asObservable();
+  }
+
+  loadStates() {
+    const myId = this.getId();
+    this.wsService.socket
+      .pipe(map(data => JSON.parse(data)), filter(json => json.id === myId), map(data => data.result))
       .subscribe(data => {
-        const resp = JSON.parse(data);
-        console.log(resp);
-        if (resp.hasOwnProperty('id') && resp.type === 'result' && this.dataHandler.hasOwnProperty(resp.id)) {
-          this.dataHandler[resp.id](resp.results);
-          delete this.dataHandler[resp.id];
-        }
-      });
+        // console.log(data);
+        this.dataStore.states = data;
+        this._states.next(Object.assign({}, this.dataStore).states);
+      }, error => console.log('Could not load states'));
+    this.wsService.sendMessage(JSON.stringify({ id: myId, type: 'get_states' }));
   }
 
-  // call a service
-  // msg is an object that is serialized and sent to hass
-  // id is created based on the current timestamp and attached to the msg
-  // callback is a function that should be run on the socket response that matches the id
-  callService(msg: Object, callback: (resp: Object) => any) {
-    msg['id'] = + new Date();
-    this.dataHandler[msg['id']] = callback;
-    this.wsService.sendMessage(JSON.stringify(msg));
+  getId() {
+    return (+ new Date()) * 1000 + this.id++ % 1000;
   }
 
 }

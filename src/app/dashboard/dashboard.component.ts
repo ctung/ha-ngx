@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild} from '@angular/core';
 import { MatDrawer } from '@angular/material';
-import { HassService } from '../hass.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,16 +9,14 @@ import { HassService } from '../hass.service';
 export class DashboardComponent implements OnInit {
   room = 'Family Room';
   @ViewChild('drawer') drawer: MatDrawer;
-  constructor(
-    private hassService: HassService
-  ) { }
+  constructor( ) { }
 
   ngOnInit() {
   }
 
   parentMethod(e) {
-    console.log(e);
+    console.log('selected ' + e);
     this.room = e;
-    this.drawer.toggle();
+    this.drawer.close();
   }
 }

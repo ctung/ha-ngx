@@ -2,3 +2,7 @@
     background-color: #39324b;
     width: 100%;
 }
+
+div.map-button {
+    padding: 6px 10px 0px 10px;
+}

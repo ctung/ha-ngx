@@ -4,9 +4,9 @@
   </mat-drawer>
   <mat-drawer-content>
     <mat-toolbar>
-      <button #home mat-button (click)="drawer.toggle()">
+      <div class="map-button" #home mat-button (click)="drawer.toggle()">
         <mat-icon>home</mat-icon>
-      </button>
+      </div>
       <span>{{room}}</span>
     </mat-toolbar>
     <app-panel></app-panel>
