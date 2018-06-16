@@ -18,7 +18,7 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     const s = Snap('#svgout');
     const g = s.group();
-    const fplan = Snap.load('../../assets/fplan.svg', (f) => {
+    Snap.load('../../assets/fplan.svg', (f) => {
         g.append(f); // draw svg
         this.hassService.states
           .pipe(map(entities => entities.filter(entity => entity.entity_id.startsWith('group.')))) // get groups
