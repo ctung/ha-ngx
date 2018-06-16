@@ -34,16 +34,19 @@ export class HassService {
     this.load('services', this._services);
     this.load('config', this._config);
     this.listen();
-    this.call('light', 'turn_on', {
+    /*
+    this.call('light', 'turn_off', {
       entity_id: 'light.ge_unknown_type5044_id3038_level',
-      brightness: 20
+      brightness: 0
     });
+    */
   }
 
   get states() { return this._states.asObservable(); }
   get services() { return this._services.asObservable(); }
   get config() { return this._config.asObservable(); }
 
+  // initialize dataStore states, services and config
   private load(varName: string, bs: any) {
     const myId = (+ new Date()) * 1000 + this.id++ % 1000;
     const msg = { id: myId, type: 'get_' + varName };

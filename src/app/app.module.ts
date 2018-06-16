@@ -28,6 +28,7 @@ import {
   MatButtonToggleModule
  } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LightComponent } from './light/light.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     DashboardComponent,
     LoginComponent,
     MapComponent,
-    PanelComponent
+    PanelComponent,
+    LightComponent
   ],
   imports: [
     BrowserModule,

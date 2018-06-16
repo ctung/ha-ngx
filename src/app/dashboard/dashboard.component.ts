@@ -7,8 +7,8 @@ import { MatDrawer } from '@angular/material';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  room = 'Family Room';
   @ViewChild('drawer') drawer: MatDrawer;
+  room = 'family room';
   constructor( ) { }
 
   ngOnInit() {
