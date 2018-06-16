@@ -33,7 +33,11 @@ export class HassService {
     this.load('states', this._states);
     this.load('services', this._services);
     this.load('config', this._config);
-    // this.call('light', 'turn_off');
+    this.listen();
+    this.call('light', 'turn_on', {
+      entity_id: 'light.ge_unknown_type5044_id3038_level',
+      brightness: 20
+    });
   }
 
   get states() { return this._states.asObservable(); }
@@ -51,12 +55,30 @@ export class HassService {
     this.wsService.sendMessage(JSON.stringify(msg));
   }
 
-  call(domain: string, service: string) {
+  // subscribe to state_changed events
+  // update this.dataStore.states with updated state and emit the new state
+  private listen() {
     const myId = (+ new Date()) * 1000 + this.id++ % 1000;
-    const msg = {id: myId, type: 'call_service', domain: domain, service: service};
+    const msg = { id: myId, type: 'subscribe_events', event_type: 'state_changed'};
+    this.msgHandler[myId] = (resp) => {
+      if (resp.hasOwnProperty('event') && resp.event.hasOwnProperty('data')) {
+        const data = resp.event.data;
+        this.dataStore.states.find(x => x.entity_id === data.entity_id).attributes = data.new_state.attributes;
+        this._states.next(Object.assign({}, this.dataStore).states);
+      }
+    };
     this.wsService.sendMessage(JSON.stringify(msg));
   }
 
+  // call service
+  call(domain: string, service: string, service_data?: any) {
+    const myId = (+ new Date()) * 1000 + this.id++ % 1000;
+    const msg = { id: myId, type: 'call_service', domain: domain, service: service };
+    if (service_data) { msg['service_data'] = service_data; }
+    this.wsService.sendMessage(JSON.stringify(msg));
+  }
+
+  // subscribe to the websocket and process incoming messages
   private socketHandler() {
     this.wsService.socket
       .pipe(map(data => JSON.parse(data)))
