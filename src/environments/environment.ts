@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  ws_url: 'ws://10.0.0.2:8123/api/websocket'
+  ws_url: 'ws://10.0.0.130:8123/api/websocket'
 };
 
 /*

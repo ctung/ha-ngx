@@ -66,6 +66,7 @@ export class HassService {
     this.msgHandler[myId] = (resp) => {
       if (resp.hasOwnProperty('event') && resp.event.hasOwnProperty('data')) {
         const data = resp.event.data;
+        console.log(data);
         this.dataStore.states.find(x => x.entity_id === data.entity_id).attributes = data.new_state.attributes;
         this._states.next(Object.assign({}, this.dataStore).states);
       }
