@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +10,29 @@ export class WebsocketService {
 
   constructor() { }
 
-  connect(): void {
-    console.log('connecting');
-    this.ws = new WebSocket(environment.ws_url);
-    this.socket = new Observable(observer => {
+  connect(ws_url: string) {
+    if (!this.socket) {
+      this.socket = this.create(ws_url);
+    }
+    return this.socket;
+  }
+
+  private create(ws_url: string): Observable<string> {
+    console.log('wsService connecting');
+    this.ws = new WebSocket(ws_url + '/api/websocket');
+    const socket = new Observable<string>(observer => {
       this.ws.onmessage = (event) => observer.next(event.data);
       this.ws.onerror = (event) => observer.error(event);
       this.ws.onclose = (event) => observer.complete();
     });
+    return socket;
   }
 
   sendMessage(message: any) {
-    this.ws.send(message);
-    console.log('sending: ' + message);
+    if (this.ws.readyState === WebSocket.OPEN) {
+      this.ws.send(message);
+      console.log('sending: ' + message);
+    }
   }
 
 }

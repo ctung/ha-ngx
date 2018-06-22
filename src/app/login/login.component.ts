@@ -20,8 +20,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      server: ['', Validators.required]
     });
+    this.form.patchValue({server: localStorage.getItem('server')});
   }
 
   isFieldInvalid(field: string) { // {6}
