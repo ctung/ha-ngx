@@ -14,13 +14,13 @@ export class WebsocketService {
     if (!this.socket) {
       this.socket = this.create(ws_url);
     }
-    return this.socket;
   }
 
   private create(ws_url: string): Observable<string> {
-    console.log('wsService connecting');
+    // console.log('wsService connecting');
     this.ws = new WebSocket(ws_url + '/api/websocket');
     const socket = new Observable<string>(observer => {
+      // this.ws.onopen = (event) => console.log(event);
       this.ws.onmessage = (event) => observer.next(event.data);
       this.ws.onerror = (event) => observer.error(event);
       this.ws.onclose = (event) => observer.complete();

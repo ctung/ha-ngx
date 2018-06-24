@@ -9,6 +9,8 @@ import { WebsocketService } from '../websocket.service';
 })
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
+  private server: string;
+  private api_password: string;
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
@@ -19,8 +21,8 @@ export class AuthService {
     private wsService: WebsocketService
   ) { }
 
-  socketHandler(ws_url: string, api_password: string) {
-    this.wsService.connect(ws_url)
+  socketHandler() {
+    this.wsService.socket
       .subscribe(data => {
         const resp = JSON.parse(data);
         // console.log(data);
@@ -30,8 +32,8 @@ export class AuthService {
             this.router.navigate(['/']);
             break;
           case 'auth_required':
-            if (api_password) {
-              this.wsService.sendMessage(JSON.stringify({ type: 'auth', api_password: api_password }));
+            if (this.api_password) {
+              this.wsService.sendMessage(JSON.stringify({ type: 'auth', api_password: this.api_password }));
             } else {
               this.loggedIn.next(false);
               this.router.navigate(['/login']);
@@ -47,6 +49,7 @@ export class AuthService {
   }
 
   login(user: User) {
+    // console.log(user);
     if (user.password !== '' && user.server !== '') {
       localStorage.setItem('api_password', user.password);
       localStorage.setItem('server', user.server);
@@ -55,10 +58,12 @@ export class AuthService {
   }
 
   auth(): void {
-    const server = localStorage.getItem('server');
-    const api_password = localStorage.getItem('api_password');
-    if (server) {
-      this.socketHandler(server, api_password);
+    this.server = localStorage.getItem('server');
+    this.api_password = localStorage.getItem('api_password');
+    if (this.server) {
+      this.wsService.connect(this.server);
+      // console.log(this.wsService.ws.readyState);
+      this.socketHandler();
     }
   }
 

@@ -81,6 +81,7 @@ export class HassService {
     this.wsService.socket
       .pipe(map(data => JSON.parse(data)))
       .subscribe(data => {
+        // console.log(data);
         // run callbacks that match msgId
         if (this.msgHandler.hasOwnProperty(data.id)) { this.msgHandler[data.id](data); }
         // emit state_changed event, update dataStore and emit new states event
