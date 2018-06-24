@@ -12,6 +12,7 @@ export class LightComponent implements OnInit {
   brightness = new FormControl();
 
   @Input('light_ids') light_ids: string[];
+  @Input('name') name: string;
 
   constructor(
     private hassService: HassService

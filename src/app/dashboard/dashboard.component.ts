@@ -8,15 +8,24 @@ import { MatDrawer } from '@angular/material';
 })
 export class DashboardComponent implements OnInit {
   @ViewChild('drawer') drawer: MatDrawer;
-  room = 'family room';
+  room: string;
+  friendly_name: string;
   constructor( ) { }
 
   ngOnInit() {
+    this.room = localStorage.getItem('room');
+    this.friendly_name = localStorage.getItem('friendly_name');
+    if (this.room == null) {
+      this.drawer.open();
+    }
   }
 
   parentMethod(e) {
-    console.log('selected ' + e);
-    this.room = e;
+    console.log('selected ' + e.friendly_name);
+    this.room = e.room;
+    this.friendly_name = e.friendly_name;
+    localStorage.setItem('room', e.name);
+    localStorage.setItem('friendly_name', e.friendly_name);
     this.drawer.close();
   }
 }

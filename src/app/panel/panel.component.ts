@@ -1,4 +1,4 @@
-import { Component, OnChanges, Input } from '@angular/core';
+import { Component, OnChanges, Input, OnInit } from '@angular/core';
 import { HassService } from '../hass.service';
 import { take } from 'rxjs/operators';
 
@@ -7,29 +7,50 @@ import { take } from 'rxjs/operators';
   templateUrl: './panel.component.html',
   styleUrls: ['./panel.component.css']
 })
-export class PanelComponent implements OnChanges {
-  light_ids: string[];
+export class PanelComponent implements OnChanges, OnInit {
+  light_groups: any;
   @Input('room') room: string;
 
   constructor(
     private hassService: HassService
   ) {
-    this.light_ids = [];
   }
 
   ngOnChanges() {
+    this.updateControls(1);
+  }
+
+  ngOnInit() {
+    this.updateControls(2); // take 2 because first one is before init of states
+  }
+
+  updateControls(cnt: number) {
     this.hassService.states
-      .pipe(take(1))
+      .pipe(take(cnt))
       .subscribe(s => {
-        const entity = s.find(x => x.entity_id === 'group.' + this.room);
-        if (entity) {
-          entity.attributes.entity_id.map(e => {
-            if (e.startsWith('light.') && this.light_ids.indexOf(e) === -1) {
-              this.light_ids.push(e);
-            }
-          });
-        }
+        this.light_groups = this.getEntityIds('group.' + this.room, s);
+        console.log(this.light_groups);
       });
   }
 
+  getEntityIds(group: string, states: any[]): any {
+    // console.log(states);
+    const entity = states.find(x => x.entity_id === group);
+    const result = [];
+    if (entity) {
+      entity.attributes.entity_id.map(e => {
+        if (e.startsWith('light.') && result.indexOf(e) === -1) {
+          result.push(e);
+        }
+        if (e.startsWith('group.')) {
+          result.push(this.getEntityIds(e, states));
+        }
+      });
+      return {
+        entity_id: entity.entity_id,
+        name: entity.attributes.friendly_name,
+        entities: result
+      };
+    }
+  }
 }

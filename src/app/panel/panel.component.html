@@ -1,4 +1,6 @@
-<app-light *ngIf="light_ids.length" [light_ids]="light_ids"></app-light>
+<div *ngIf="light_groups">
+    <app-light *ngFor="let entity of light_groups.entities" [light_ids]="entity.entities" [name]="entity.name"></app-light>
+</div>
 <mat-card>
     <mat-card-title>Temperature</mat-card-title>
     <mat-card-content>
