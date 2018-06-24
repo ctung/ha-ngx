@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   parentMethod(e) {
     console.log('selected ' + e.friendly_name);
-    this.room = e.room;
+    this.room = e.name;
     this.friendly_name = e.friendly_name;
     localStorage.setItem('room', e.name);
     localStorage.setItem('friendly_name', e.friendly_name);
