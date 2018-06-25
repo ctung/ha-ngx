@@ -1,0 +1,4 @@
+export const environment = {
+  production: true,
+  ws_url: 'wss://mydomain.duckdns.org:8123/api/websocket'
+};
