@@ -1,15 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HassService } from '../hass.service';
-import { map, take, filter } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-light',
   templateUrl: './light.component.html',
   styleUrls: ['./light.component.css']
 })
-export class LightComponent implements OnInit {
-  brightness = new FormControl();
+export class LightComponent implements OnInit, OnDestroy {
+  private brightness = new FormControl();
+  private unsub: Subject<any> = new Subject();
 
   @Input('light_ids') light_ids: string[];
   @Input('name') name: string;
@@ -19,28 +21,15 @@ export class LightComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // initialize the slider value to match the average of all lights in this group
     this.hassService.states
-      .pipe(
-        map(entities => entities.filter(x => this.light_ids.indexOf(x.entity_id) !== -1)),
-        take(1))
+      .pipe(takeUntil(this.unsub), map(entities => entities.filter(x => this.light_ids.indexOf(x.entity_id) !== -1)))
       .subscribe(entities => {
-        if (entities.length === 0) {
-          this.brightness.setValue(0, {emitEvent: false});
-        } else {
-          let sum = 0;
-          entities.map(e => sum += e.attributes.brightness); // take the average of all light brightness
-          this.brightness.setValue(Math.round(sum / entities.length), {emitEvent: false});
-        }
-      });
-
-    // on state changes, set the slider to match the new state
-    this.hassService.state_changed
-      .pipe(filter(x => this.light_ids.indexOf(x.entity_id) !== -1))
-      .subscribe(x => {
-        if (x.new_state.attributes.brightness !== this.brightness.value) {
-          this.brightness.setValue(x.new_state.attributes.brightness, {emitEvent: false});
-        }
+        // console.log(this.light_ids);
+        // console.log(entities);
+        let sum = 0;
+        entities.map(e => sum += e.attributes.brightness); // take the average of all light brightness
+        const new_brightness = Math.round(sum / entities.length);
+        if (this.brightness.value !== new_brightness) { this.brightness.setValue(new_brightness, { emitEvent: false }); }
       });
 
     // When the user changes the slider, send that change to hass
@@ -52,6 +41,11 @@ export class LightComponent implements OnInit {
         this.hassService.call('light', service, service_data);
       });
     });
+  }
+
+  ngOnDestroy() {
+    this.unsub.next();
+    this.unsub.complete();
   }
 
 }

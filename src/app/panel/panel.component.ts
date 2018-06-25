@@ -29,7 +29,7 @@ export class PanelComponent implements OnChanges, OnInit {
       .pipe(take(cnt))
       .subscribe(s => {
         this.light_groups = this.getEntityIds('group.' + this.room, s);
-        console.log(this.light_groups);
+        // console.log(this.light_groups);
       });
   }
 

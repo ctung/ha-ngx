@@ -85,13 +85,14 @@ export class HassService {
     this.wsService.socket
       .pipe(map(data => JSON.parse(data)))
       .subscribe(data => {
-        console.log(data);
+        // console.log(data);
         // run callbacks that match msgId
         if (this.msgHandler.hasOwnProperty(data.id)) { this.msgHandler[data.id](data); }
         // emit state_changed event, update dataStore and emit new states event
         if (data.type === 'event' && data.event.event_type === 'state_changed') {
+          // console.log(data.event.data);
           this._state_changed.next(Object.assign({}, data.event).data);
-          this.dataStore.states.find(x => x.attributes.entity_id === data.entity_id).attributes = data.event.data.new_state.attributes;
+          this.dataStore.states.find(x => x.entity_id === data.event.data.entity_id).attributes = data.event.data.new_state.attributes;
           this._states.next(Object.assign({}, this.dataStore).states);
         }
 

@@ -3,13 +3,13 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from './user';
 import { WebsocketService } from '../websocket.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private loggedIn = new BehaviorSubject<boolean>(false);
-  private server: string;
   private api_password: string;
 
   get isLoggedIn() {
@@ -50,22 +50,18 @@ export class AuthService {
 
   login(user: User) {
     // console.log(user);
-    if (user.password !== '' && user.server !== '') {
+    if (user.password !== '') {
       localStorage.setItem('api_password', user.password);
-      localStorage.setItem('server', user.server);
-      this.auth();
     }
   }
 
   auth(): void {
-    this.server = localStorage.getItem('server');
     this.api_password = localStorage.getItem('api_password');
-    if (this.server) {
-      this.wsService.connect(this.server);
-      // console.log(this.wsService.ws.readyState);
-      this.socketHandler();
-    }
+    this.wsService.connect(environment.ws_url);
+    // console.log(this.wsService.ws.readyState);
+    this.socketHandler();
   }
+
 
   logout() {                            // {4}
     localStorage.removeItem('api_password');

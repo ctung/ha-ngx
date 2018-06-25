@@ -18,7 +18,7 @@ export class WebsocketService {
 
   private create(ws_url: string): Observable<string> {
     // console.log('wsService connecting');
-    this.ws = new WebSocket(ws_url + '/api/websocket');
+    this.ws = new WebSocket(ws_url);
     const socket = new Observable<string>(observer => {
       // this.ws.onopen = (event) => console.log(event);
       this.ws.onmessage = (event) => observer.next(event.data);
@@ -31,7 +31,7 @@ export class WebsocketService {
   sendMessage(message: any) {
     if (this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(message);
-      console.log('sending: ' + message);
+      // console.log('sending: ' + message);
     }
   }
 

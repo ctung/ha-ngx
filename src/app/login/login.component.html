@@ -6,12 +6,6 @@
       <mat-card-content>
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
           <p>Please login to continue</p>
-          <mat-form-field class="full-width-input">
-            <input matInput type="server" placeholder="Hass URI (eg ws://10.0.0.130:8123)" formControlName="server" required>
-            <mat-error *ngIf="isFieldInvalid('server')">
-              Please enter your server URI
-            </mat-error>
-          </mat-form-field>
 
           <mat-form-field class="full-width-input">
             <input matInput type="password" placeholder="api_password" formControlName="password" required>
