@@ -10,7 +10,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./light.component.css']
 })
 export class LightComponent implements OnInit, OnDestroy {
-  private brightness = new FormControl();
+  brightness = new FormControl();
   private unsub: Subject<any> = new Subject();
 
   @Input('light_ids') light_ids: string[];
