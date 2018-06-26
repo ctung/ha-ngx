@@ -1,6 +1,21 @@
-<mat-card>
+<!--
+  <mat-card>
   <mat-card-title>{{ name }}</mat-card-title>
   <mat-card-content>
     <mat-slider style="width:100%" class="form-control" [formControl]="brightness" step="20"></mat-slider>
+    <div ngDraggable 
+    (started)="onDragBegin($event)"
+    (stopped)="onDragEnd($event)"
+    [trackPosition]="false"
+    zIndex="99"
+    >Drag me!</div>
   </mat-card-content>
 </mat-card>
+-->
+<button mat-stroked-button ngDraggable
+(started)="onDragBegin($event)"
+(stopped)="onDragEnd($event)"
+(movingOffset)="onMoving($event)"
+[trackPosition]="false"
+[preventDefaultEvent]="true"
+>{{ name }} {{ brightness }}</button>

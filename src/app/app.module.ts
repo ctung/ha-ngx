@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -24,11 +25,13 @@ import {
   MatProgressSpinnerModule,
   MatButtonModule,
   MatInputModule,
-  MatSliderModule,
-  MatButtonToggleModule
+  MatButtonToggleModule,
+  MatChipsModule,
+  MatSnackBarModule
  } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LightComponent } from './light/light.component';
+import { SnackbarComponent } from './snackbar/snackbar.component';
 
 
 @NgModule({
@@ -38,7 +41,8 @@ import { LightComponent } from './light/light.component';
     LoginComponent,
     MapComponent,
     PanelComponent,
-    LightComponent
+    LightComponent,
+    SnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -53,10 +57,12 @@ import { LightComponent } from './light/light.component';
     MatProgressSpinnerModule,
     MatButtonModule,
     MatInputModule,
-    MatSliderModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatChipsModule,
+    MatSnackBarModule,
+    AngularDraggableModule
   ],
   providers: [AuthGuardService, AuthService, WebsocketService, HassService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, SnackbarComponent ]
 })
 export class AppModule { }

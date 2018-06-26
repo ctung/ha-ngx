@@ -1,8 +1,11 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { HassService } from '../hass.service';
 import { map, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
+import { SnackbarComponent } from '../snackbar/snackbar.component';
+
 
 @Component({
   selector: 'app-light',
@@ -10,14 +13,17 @@ import { Subject } from 'rxjs';
   styleUrls: ['./light.component.css']
 })
 export class LightComponent implements OnInit, OnDestroy {
-  brightness = new FormControl();
+  brightness: number;
+  private new_brightness: number;
   private unsub: Subject<any> = new Subject();
+  private snackBarMsg: Subject<any> = new Subject();
 
   @Input('light_ids') light_ids: string[];
   @Input('name') name: string;
 
   constructor(
-    private hassService: HassService
+    private hassService: HassService,
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -28,19 +34,28 @@ export class LightComponent implements OnInit, OnDestroy {
         // console.log(entities);
         let sum = 0;
         entities.map(e => sum += e.attributes.brightness); // take the average of all light brightness
-        const new_brightness = Math.round(sum / entities.length);
-        if (this.brightness.value !== new_brightness) { this.brightness.setValue(new_brightness, { emitEvent: false }); }
+        this.brightness = Math.round(sum / entities.length);
       });
 
-    // When the user changes the slider, send that change to hass
-    this.brightness.valueChanges.subscribe(val => {
-      const service = (val) ? 'turn_on' : 'turn_off';
+  }
+
+  onDragBegin(e) {
+    this.snackBar.openFromComponent(SnackbarComponent, { data: this.snackBarMsg });
+  }
+  onDragEnd(e) {
+    // console.log(e);
+    const service = (this.new_brightness) ? 'turn_on' : 'turn_off';
       this.light_ids.map(entity_id => {
         const service_data = { entity_id: entity_id };
-        if (val) { service_data['brightness'] = val; }
+        if (this.new_brightness) { service_data['brightness'] = this.new_brightness; }
         this.hassService.call('light', service, service_data);
       });
-    });
+    this.snackBar.dismiss();
+  }
+
+  onMoving(e) {
+    this.new_brightness = Math.min(Math.round(Math.sqrt(e.y ** 2 + e.x ** 2) / 2), 100);
+    this.snackBarMsg.next('Set ' + this.name + ' to ' + this.new_brightness + '%');
   }
 
   ngOnDestroy() {
