@@ -1,6 +1,14 @@
 .mat-drawer{
-    background-color: #39324b;
+    background-image: url("../../assets/red_sky.jpg");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
     width: 100%;
+}
+
+.mat-drawer-content {
+    background-image: url("../../assets/cloudy.jpg");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
 }
 
 div.map-button {
