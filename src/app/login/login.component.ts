@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
     this.form = this.fb.group({
       password: ['', Validators.required]
     });
-    this.form.patchValue({server: localStorage.getItem('server')});
   }
 
   isFieldInvalid(field: string) { // {6}

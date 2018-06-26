@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './login/auth.service';
+import { WebsocketService } from './websocket.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +9,10 @@ import { AuthService } from './login/auth.service';
 export class AppComponent implements OnInit {
 
   constructor(
-    private authService: AuthService
+    private wsService: WebsocketService
   ) { }
 
   ngOnInit() {
-    this.authService.auth(); // try to login
+    this.wsService.connect();
   }
 }

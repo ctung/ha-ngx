@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { User } from './user';
 import { WebsocketService } from '../websocket.service';
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +18,11 @@ export class AuthService {
   constructor(
     private router: Router,
     private wsService: WebsocketService
-  ) { }
+  ) {
+    this.api_password = localStorage.getItem('api_password');
+    this.socketHandler();
+  }
+
 
   socketHandler() {
     this.wsService.socket
@@ -52,16 +55,9 @@ export class AuthService {
     // console.log(user);
     if (user.password !== '') {
       localStorage.setItem('api_password', user.password);
+      this.wsService.sendMessage(JSON.stringify({type: 'auth', api_password: user.password}));
     }
   }
-
-  auth(): void {
-    this.api_password = localStorage.getItem('api_password');
-    this.wsService.connect(environment.ws_url);
-    // console.log(this.wsService.ws.readyState);
-    this.socketHandler();
-  }
-
 
   logout() {                            // {4}
     localStorage.removeItem('api_password');
