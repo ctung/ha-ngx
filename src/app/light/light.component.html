@@ -1,7 +1,10 @@
-<button mat-stroked-button ngDraggable
+<button ngDraggable
 (started)="onDragBegin($event)"
 (stopped)="onDragEnd($event)"
 (movingOffset)="onMoving($event)"
 [trackPosition]="false"
 [preventDefaultEvent]="true"
->{{ name }} {{ brightness }}</button>
+[ngClass]="class"
+(click)="onClick()"
+zIndexMoving="999"
+>{{ name }}</button>

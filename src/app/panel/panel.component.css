@@ -5,9 +5,10 @@
 }
 
 .mat-button-toggle {
-    background-color: white;
+    background-color: #808080;
+    color: white;
 }
 
 .mat-button-toggle-checked {
-    background-color: #c0c0c0;
+    background-color: #3f51b5;
 }

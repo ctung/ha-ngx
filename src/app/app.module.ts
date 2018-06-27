@@ -27,7 +27,8 @@ import {
   MatInputModule,
   MatButtonToggleModule,
   MatChipsModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatGridListModule
  } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LightComponent } from './light/light.component';
@@ -60,7 +61,8 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     MatButtonToggleModule,
     MatChipsModule,
     MatSnackBarModule,
-    AngularDraggableModule
+    AngularDraggableModule,
+    MatGridListModule
   ],
   providers: [AuthGuardService, AuthService, WebsocketService, HassService],
   bootstrap: [AppComponent, SnackbarComponent ]
