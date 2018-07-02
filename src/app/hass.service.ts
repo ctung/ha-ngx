@@ -77,6 +77,7 @@ export class HassService {
     const myId = (+ new Date()) * 1000 + this.id++ % 1000;
     const msg = { id: myId, type: 'call_service', domain: domain, service: service };
     if (service_data) { msg['service_data'] = service_data; }
+    // console.log(msg);
     this.wsService.sendMessage(JSON.stringify(msg));
   }
 

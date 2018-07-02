@@ -45,10 +45,6 @@ export class LightComponent implements OnInit, OnDestroy {
 
   }
 
-  onClick() {
-    this.hassService.call('light', 'toggle');
-  }
-
   onDragBegin(e) {
     this.snackBar.openFromComponent(SnackbarComponent, {
       panelClass: ['roboto-font'],
@@ -59,11 +55,12 @@ export class LightComponent implements OnInit, OnDestroy {
     // console.log(e);
     this.light_ids.map(entity_id => {
       const service_data = { entity_id: entity_id };
-      if (this.new_brightness < 0) { this.hassService.call('light', 'turn_off', service_data); } else
-        if (this.new_brightness < 10) { this.hassService.call('light', 'toggle', service_data); } else {
-          service_data['brightness'] = this.new_brightness;
-          this.hassService.call('light', 'turn_on', service_data);
-        }
+      if (this.new_brightness < 0) {
+        this.hassService.call('light', 'turn_off', service_data);
+      } else {
+        service_data['brightness'] = this.new_brightness;
+        this.hassService.call('light', 'turn_on', service_data);
+      }
     });
     this.snackBar.dismiss();
   }
