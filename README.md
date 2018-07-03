@@ -15,31 +15,25 @@ Lastly, to support complex controls, like dimmers, I created a "click-and-drag" 
 
 This code is incomplete.  At this time, I only have a light switch as the only working component.  The components are modular, so as I get access to more devices, I will add more components.  If you use this for more than lights, be aware that you may need to write your own component to control that device.  The code is modular, so the light switch should serve as a good template for anything you need to add.
 
-* **_Continue only if you are familiar with Angular 2+_**
-
 ## Getting started
 
-Install [Angular CLI](https://github.com/angular/angular-cli) if you don't already have it.
+Install [Angular CLI](https://github.com/angular/angular-cli) if you don't already have it. I recommend [MS Visual Studio](https://visualstudio.microsoft.com/vs/) for code edits
 
-I recommend [MS Visual Studio](https://visualstudio.microsoft.com/vs/) for code edits
+* Run `git clone https://github.com/ctung/cape-automation.git` to grab a copy of the code
+* `cd cape-automation`
+* Run `npm update` to grab all the necessary modules
+* Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* When You're happy with your changes, run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.  
+* Copy the files in `dist/` to your webserver
 
-Run `git clone https://github.com/ctung/cape-automation.git` to grab a copy of the code
-
-`cd cape-automation`
-
-Run `npm update` to grab all the necessary modules
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-Your production code would run on a webserver (eg NGINX or Apache), that can run alongside you HA install.  If you want to make this app accessible from the internet, you will also need to open your websocket port (default 8123), as the app will attempt to make a websocket connection directly to your HA instance. **Be sure to select a strong api_password**
+If you want to make this app accessible from the internet, you will also need to open your websocket port (default 8123), as the app will attempt to make a websocket connection directly to your HA instance. **Be sure to select a strong api_password**
 
 ## Home Assistant Configuration
 
-This web app reads your home assistant groups to collect information about your rooms, and uses the group names to associate rooms with the layer names in the floorplan SVG.  Here is my wip [groups.yaml](https://github.com/ctung/Home-AssistantConfig/blob/master/groups.yaml)
+This web app reads your home assistant groups to collect information about your rooms, and uses the group names to associate rooms with the layer names in the floorplan SVG.  Here is an example [groups.yaml](https://github.com/ctung/Home-AssistantConfig/blob/master/groups.yaml)
 
 * Each Room should have it's own group, where the group name must match a layer name in your floorplan SVG
 * Each Room group should have sub-groups as entities that group together the light elements you want to switch
-  * The name of the sub-group will be the label shown on the light switch button, so keep it short (3-4 chars)
 
 ## Floorplan SVG
 
@@ -57,10 +51,6 @@ The floorplans must be drawn with Inkscape with one layer group per room
 6. When a room is selected, the updateControls function grabs the entity_ids for the entities associated with that room (`./panel/panel.component.ts`)
 7. If the room has light groups, then render material card for the lights, and a light button component for each light group (`./panel/panel.component.html`)
 8. The light button components monitor for drag events, sending a call to the HA websocket to change the light state.  The light button component also subscribes to the states observable, so if the brightness is non-zero, the button changes color to yellow. (`./light/light.component.ts`)
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.  
 
 ## Further help
 
