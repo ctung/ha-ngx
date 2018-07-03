@@ -1,4 +1,4 @@
-# CapeAutomation
+# ha-ngx Home Assistant Mobile Front-End  
 
 A mobile-first front-end for home automation control, using the [Home Assistant](https://www.home-assistant.io/) ecosystem.  Most of the currently available control panels for Home Assistant are targeted for tablets.  Considering an average home probably has at least 10-15 light switches, trying to show all those buttons on a phone would get out of hand.  
 
