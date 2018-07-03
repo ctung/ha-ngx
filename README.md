@@ -29,9 +29,6 @@ Run `git clone https://github.com/ctung/cape-automation.git` to grab a copy of t
 
 Run `npm update` to grab all the necessary modules
 
-Edit `./src/environments/environment.ts` and `environment.prod.ts` to point the `ws_url` at your home assistant 
-websocket api.
-
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 Your production code would run on a webserver (eg NGINX or Apache), that can run alongside you HA install.  If you want to make this app accessible from the internet, you will also need to open your websocket port (default 8123), as the app will attempt to make a websocket connection directly to your HA instance. **Be sure to select a strong api_password**
