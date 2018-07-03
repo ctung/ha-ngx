@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { WebsocketService } from '../websocket.service';
 
 @Component({
   selector: 'app-login',
@@ -11,17 +12,22 @@ import { AuthService } from './auth.service';
 export class LoginComponent implements OnInit {
   form: FormGroup;
   private formSubmitAttempt: boolean;
+  readystate: number;
 
   constructor(
     private fb: FormBuilder,
     public authService: AuthService,
-    public router: Router
+    public router: Router,
+    private wsService: WebsocketService
   ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
       password: ['', Validators.required]
     });
+    this.readystate = this.wsService.ws.readyState;
+    this.wsService.readystate.subscribe( state => this.readystate = state );
+
   }
 
   isFieldInvalid(field: string) { // {6}
@@ -37,5 +43,6 @@ export class LoginComponent implements OnInit {
     }
     this.formSubmitAttempt = true;             // {8}
   }
+
 
 }

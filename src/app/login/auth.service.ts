@@ -55,8 +55,8 @@ export class AuthService {
     // console.log(user);
     if (user.password !== '') {
       localStorage.setItem('api_password', user.password);
-      this.router.navigate(['/login']);
-      // this.wsService.sendMessage(JSON.stringify({type: 'auth', api_password: user.password}));
+      // this.router.navigate(['/login']);
+      this.wsService.sendMessage(JSON.stringify({type: 'auth', api_password: user.password}));
     }
   }
 
