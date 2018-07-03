@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 
 
@@ -10,21 +9,20 @@ import { BehaviorSubject } from 'rxjs';
 export class WebsocketService {
   ws: WebSocket;
   socket: Observable<string>;
-  private _readystate: BehaviorSubject<any>;
+  private _readystate = new BehaviorSubject<number>(0);
 
-  constructor() {
-    this._readystate = <BehaviorSubject<any>>new BehaviorSubject([]);
-  }
+  constructor() { }
 
-  connect() {
-    if (!this.socket || this.ws.readyState !== WebSocket.OPEN) {
-      this.socket = this.create();
+  connect(ws_url: string): Observable<string> {
+    if (!this.socket || !this.ws || this.ws.readyState !== WebSocket.OPEN) {
+      this.socket = this.create(ws_url);
     }
+    return this.socket;
   }
 
-  private create(): Observable<string> {
+  private create(ws_url: string): Observable<string> {
     // console.log('wsService connecting');
-    this.ws = new WebSocket(environment.ws_url);
+    this.ws = new WebSocket(ws_url + '/api/websocket');
     this._readystate.next(this.ws.readyState);
     const socket = new Observable<string>(observer => {
       this.ws.onopen = () => this._readystate.next(this.ws.readyState);

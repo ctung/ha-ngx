@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
-import { WebsocketService } from '../websocket.service';
 
 @Component({
   selector: 'app-login',
@@ -16,18 +14,20 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public authService: AuthService,
-    public router: Router,
-    private wsService: WebsocketService
-  ) {}
+    public authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.form = this.fb.group({
+      ws_url: ['', Validators.required],
       password: ['', Validators.required]
     });
-    this.readystate = this.wsService.ws.readyState;
-    this.wsService.readystate.subscribe( state => this.readystate = state );
 
+    // bypass login screen if url and password found in localStorage
+    this.authService.login({
+      ws_url: localStorage.getItem('ws_url'),
+      password: localStorage.getItem('api_password')
+    });
   }
 
   isFieldInvalid(field: string) { // {6}

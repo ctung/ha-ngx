@@ -65,6 +65,7 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     MatGridListModule
   ],
   providers: [AuthGuardService, AuthService, WebsocketService, HassService],
-  bootstrap: [AppComponent, SnackbarComponent ]
+  bootstrap: [AppComponent ],
+  entryComponents: [ SnackbarComponent ]
 })
 export class AppModule { }

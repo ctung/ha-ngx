@@ -8,6 +8,13 @@
           <p>Please login to continue</p>
 
           <mat-form-field class="full-width-input">
+            <input matInput type="text" placeholder="Websocket Url" formControlName="ws_url" required>
+            <mat-error *ngIf="isFieldInvalid('ws_url')">
+              Please enter your Home Assistant Websocket URL (eg ws://10.0.0.2:8123)
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width-input">
             <input matInput type="password" placeholder="api_password" formControlName="password" required>
             <mat-error *ngIf="isFieldInvalid('password')">
               Please enter your api_password
