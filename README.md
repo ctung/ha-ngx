@@ -39,7 +39,7 @@ This web app reads your home assistant groups to collect information about your 
 
 The floorplans must be drawn with Inkscape with one layer group per room
 * Each Layer group must be named identical to the room group names in the groups.yaml
-* See ./assets/fplan.svg as an example
+* See [./src/assets/fplan.svg](https://github.com/ctung/cape-automation/blob/master/src/assets/fplan.svg) as an example
 
 ## Code Flow
 
