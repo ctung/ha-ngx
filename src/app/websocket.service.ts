@@ -12,7 +12,7 @@ export class WebsocketService {
   constructor() { }
 
   connect() {
-    if (!this.socket) {
+    if (!this.socket || this.ws.readyState !== WebSocket.OPEN) {
       this.socket = this.create();
     }
   }
