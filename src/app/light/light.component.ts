@@ -51,6 +51,7 @@ export class LightComponent implements OnInit, OnDestroy {
       data: this.snackBarMsg
     });
   }
+
   onDragEnd(e) {
     // console.log(e);
     this.light_ids.map(entity_id => {

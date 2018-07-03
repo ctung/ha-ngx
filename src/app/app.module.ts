@@ -26,13 +26,13 @@ import {
   MatButtonModule,
   MatInputModule,
   MatButtonToggleModule,
-  MatChipsModule,
   MatSnackBarModule,
   MatGridListModule
  } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LightComponent } from './light/light.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
+import { NickNamePipe } from './nickname.pipe';
 
 
 @NgModule({
@@ -43,7 +43,8 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     MapComponent,
     PanelComponent,
     LightComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    NickNamePipe
   ],
   imports: [
     BrowserModule,
@@ -59,7 +60,6 @@ import { SnackbarComponent } from './snackbar/snackbar.component';
     MatButtonModule,
     MatInputModule,
     MatButtonToggleModule,
-    MatChipsModule,
     MatSnackBarModule,
     AngularDraggableModule,
     MatGridListModule
