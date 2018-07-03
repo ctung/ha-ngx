@@ -1,26 +1,69 @@
 # CapeAutomation
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.5.
+A mobile-first front-end for home automation control, using the [Home Assistant](https://www.home-assistant.io/) ecosystem.  Most of the currently available control panels for Home Assistant are targeted for tablets.  Considering an average home probably has at least 10-15 light switches, trying to show all those buttons on a phone would get out of hand.  
 
-## Development server
+So I chose a functional approach for a solution; my philosophy is that the majority of time, you will be only interested in the controls for the room you currently inhabit.  So instead of showing everything at once, allw the user to select the room they are in, and then present only the controls for that room.  That helps cut down the number of buttons, as well as clusters all the associated controls closely together.
+
+The main Dashboard consists of 2 parts
+* The control panel that holds the buttons
+* a floorplan map that slides out from the left (Material Drawer) when the user clicks the home icon
+* when the user clicks on a room on the floorplan, the drawer slides away, and reveals the control panel for the newly selected room
+
+Lastly, to support complex controls, like dimmers, I created a "click-and-drag" button, that has all the functionality of a slider, while consuming the screen real estate of a button.  Drag the button down, and the distance dragged works like a slider.  Drag the button up and set the value to zero.
+
+## This is still a WIP
+
+This code is incomplete.  At this time, I only have a light switch as the only working component.  The components are modular, so as I get access to more devices, I will add more components.  If you use this for more than lights, be aware that you may need to write your own component to control that device.  The code is modular, so the light switch should serve as a good template for anything you need to add.
+
+* **_Continue only if you are familiar with Angular 2+_**
+
+## Getting started
+
+Install [Angular CLI](https://github.com/angular/angular-cli) if you don't already have it.
+
+I recommend [MS Visual Studio](https://visualstudio.microsoft.com/vs/) for code edits
+
+Run `git clone https://github.com/ctung/cape-automation.git` to grab a copy of the code
+
+`cd cape-automation`
+
+Run `npm update` to grab all the necessary modules
+
+Edit `./src/environments/environment.ts` and `environment.prod.ts` to point the `ws_url` at your home assistant 
+websocket api.
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+Your production code would run on a webserver (eg NGINX or Apache), that can run alongside you HA install.  If you want to make this app accessible from the internet, you will also need to open your websocket port (default 8123), as the app will attempt to make a websocket connection directly to your HA instance. **Be sure to select a strong api_password**
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Home Assistant Configuration
+
+This web app reads your home assistant groups to collect information about your rooms, and uses the group names to associate rooms with the layer names in the floorplan SVG.  Here is my wip [groups.yaml](https://github.com/ctung/Home-AssistantConfig/blob/master/groups.yaml)
+
+* Each Room should have it's own group, where the group name must match a layer name in your floorplan SVG
+* Each Room group should have sub-groups as entities that group together the light elements you want to switch
+  * The name of the sub-group will be the label shown on the light switch button, so keep it short (3-4 chars)
+
+## Floorplan SVG
+
+The floorplans must be drawn with Inkscape with one layer group per room
+* Each Layer group must be named identical to the room group names in the groups.yaml
+* See ./assets/fplan.svg as an example
+
+## Code Flow
+
+1. Open a websocket to the HA websocket api (`websocket.service.ts`)
+2. Subscribe to the websocket with a handler for authentication (`./login/auth.service.ts`)
+3. Send get_* calls to the websocket api to read the current state, and provide that state to the web app as an Observable (`hass.service.ts`)
+4. Subscribe to the websocket for state_changed events.  Each time a state_changed event occurs, update the local state, and emit the new state on the state observable (`hass.service.ts`)
+5. Subscribe the map to the states observable.  The first non-empty states emit, has each group name searched for in the map SVG.  If there is a matching layer name, a (click) handler is added to the SVG layer, that updates the selected room. (`./map/map.component.ts`)
+6. When a room is selected, the updateControls function grabs the entity_ids for the entities associated with that room (`./panel/panel.component.ts`)
+7. If the room has light groups, then render material card for the lights, and a light button component for each light group (`./panel/panel.component.html`)
+8. The light button components monitor for drag events, sending a call to the HA websocket to change the light state.  The light button component also subscribes to the states observable, so if the brightness is non-zero, the button changes color to yellow. (`./light/light.component.ts`)
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.  
 
 ## Further help
 
