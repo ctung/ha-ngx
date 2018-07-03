@@ -60,6 +60,7 @@ export class LightComponent implements OnInit, OnDestroy {
       } else {
         service_data['brightness'] = this.new_brightness;
         this.hassService.call('light', 'turn_on', service_data);
+        this.hassService.call('light', 'turn_on', service_data); // some hacky workaround for ios websocket not triggering status change
       }
     });
     this.snackBar.dismiss();
