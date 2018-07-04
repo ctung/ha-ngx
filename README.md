@@ -35,17 +35,15 @@ getEntityIds(group: string, states: any[]): any {
 ```
 * In `./src/apps/panel/panel.component.html` add a new `<div *ngIf="..."></div>` section for your entity type
 * Add your new component to your new div
-```typescript
-getEntityIds(group: string, states: any[]): any {
-    // console.log(states);
-    const entity = states.find(x => x.entity_id === group);
-    if (entity) {
-      this.light_ids = entity.attributes.entity_id.filter((x: string) => x.startsWith('light.'));
-      // add more component types here
-      // this.component_type_ids = entity.attributes_id.filter((x:string) => x.startsWith('component_type'));
-
-    }
-  }
+```html
+<div *ngIf="light_ids.length">
+    <mat-card>
+        <mat-card-title>Lights</mat-card-title>
+        <mat-card-content>
+            <app-light *ngFor="let light_id of light_ids" [light_id]="light_id"></app-light>
+        </mat-card-content>
+    </mat-card>
+</div>
 ```
 
 ## Getting started
