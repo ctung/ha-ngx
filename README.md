@@ -15,6 +15,39 @@ Lastly, to support complex controls, like dimmers, I created a "click-and-drag" 
 
 This code is incomplete.  At this time, I only have a light switch as the only working component.  The components are modular, so as I get access to more devices, I will add more components.  If you use this for more than lights, be aware that you may need to write your own component to control that device.  The code is modular, so the light switch should serve as a good template for anything you need to add.
 
+To add more entity types:
+* Create a new component similar to `./src/apps/light/light.component.ts`
+  * @Input should be the entity_id of the device
+  * Subscribe to hassService.states for state change updates
+  * Use hassService.call() to make calls to HA
+  * I think it's appropriate here to unsubscribe when the component is destroyed
+* In `./src/apps/panel/panel.component.ts`:
+```typescript
+getEntityIds(group: string, states: any[]): any {
+    // console.log(states);
+    const entity = states.find(x => x.entity_id === group);
+    if (entity) {
+      this.light_ids = entity.attributes.entity_id.filter((x: string) => x.startsWith('light.'));
+      // add more component types here
+      // this.component_type_ids = entity.attributes_id.filter((x:string) => x.startsWith('component_type'));
+    }
+  }
+```
+* In `./src/apps/panel/panel.component.html` add a new `<div *ngIf="..."></div>` section for your entity type
+* Add your new component to your new div
+```typescript
+getEntityIds(group: string, states: any[]): any {
+    // console.log(states);
+    const entity = states.find(x => x.entity_id === group);
+    if (entity) {
+      this.light_ids = entity.attributes.entity_id.filter((x: string) => x.startsWith('light.'));
+      // add more component types here
+      // this.component_type_ids = entity.attributes_id.filter((x:string) => x.startsWith('component_type'));
+
+    }
+  }
+```
+
 ## Getting started
 
 Install [Angular CLI](https://github.com/angular/angular-cli) if you don't already have it. I recommend [MS Visual Studio](https://visualstudio.microsoft.com/vs/) for code edits
@@ -79,15 +112,24 @@ This web app reads your home assistant groups to collect information about your 
 The floorplans must be drawn with Inkscape with one layer group per room
 * Each Layer group must be named identical to the room group names in the groups.yaml
 * See [./src/assets/fplan.svg](https://github.com/ctung/cape-automation/blob/master/src/assets/fplan.svg) as an example
-
+```html
+ <g
+     inkscape:groupmode="layer"
+     id="layer12"
+     inkscape:label="master_bed"
+     transform="translate(-31.317499,-62.411241)"
+     style="display:inline">
+     ...
+ </g>
+  ```
 ## Code Flow
 
 1. Open a websocket to the HA websocket api (`websocket.service.ts`)
 2. Subscribe to the websocket with a handler for authentication (`./login/auth.service.ts`)
-3. Send get_* calls to the websocket api to read the current state, and provide that state to the web app as an Observable (`hass.service.ts`)
+3. Send get_* calls to the websocket api to read the current state, and provide that state to the web app as a BehaviorSubject Observable (`hass.service.ts`)
 4. Subscribe to the websocket for state_changed events.  Each time a state_changed event occurs, update the local state, and emit the new state on the state observable (`hass.service.ts`)
-5. Subscribe the map to the states observable.  The first non-empty states emit, has each group name searched for in the map SVG.  If there is a matching layer name, a (click) handler is added to the SVG layer, that updates the selected room. (`./map/map.component.ts`)
-6. When a room is selected, the updateControls function grabs the entity_ids for the entities associated with that room (`./panel/panel.component.ts`)
+5. Subscribe the map to the states observable.  For every SVG layer that matches a hass state group name, a (click) handler is added to the SVG layer, that updates the selected room. (`./map/map.component.ts`)
+6. When a room is selected, the updateControls function grabs the entity_ids for the hass state group associated with that room (`./panel/panel.component.ts`)
 7. If the room has light groups, then render material card for the lights, and a light button component for each light group (`./panel/panel.component.html`)
 8. The light button components monitor for drag events, sending a call to the HA websocket to change the light state.  The light button component also subscribes to the states observable, so if the brightness is non-zero, the button changes color to yellow. (`./light/light.component.ts`)
 

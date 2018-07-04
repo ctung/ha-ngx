@@ -37,8 +37,10 @@ export class PanelComponent implements OnChanges, OnInit {
     // console.log(states);
     const entity = states.find(x => x.entity_id === group);
     if (entity) {
-     this.light_ids = entity.attributes.entity_id.filter((x: string) => x.startsWith('light.'));
-     console.log(this.light_ids);
+      this.light_ids = entity.attributes.entity_id.filter((x: string) => x.startsWith('light.'));
+      // add more component types here
+      // this.component_type_ids = entity.attributes_id.filter((x:string) => x.startsWith('component_type'));
+
     }
   }
 }
