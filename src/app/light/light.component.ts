@@ -35,7 +35,7 @@ export class LightComponent implements OnInit, OnDestroy {
         map(entities => entities.find(x => x.entity_id === this.light_id))
       )
       .subscribe(entity => {
-        console.log(entity);
+        // console.log(entity);
         this.brightness = entity.attributes.brightness;
         this.name = entity.attributes.friendly_name;
         if (this.brightness) {
