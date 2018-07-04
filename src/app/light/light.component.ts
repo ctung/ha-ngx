@@ -18,9 +18,9 @@ export class LightComponent implements OnInit, OnDestroy {
   private unsub: Subject<any> = new Subject();
   private snackBarMsg: Subject<any> = new Subject();
   class: string;
+  name: string;
 
-  @Input('light_ids') light_ids: string[];
-  @Input('name') name: string;
+  @Input('light_id') light_id: string;
 
   constructor(
     private hassService: HassService,
@@ -28,14 +28,16 @@ export class LightComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
     this.hassService.states
-      .pipe(takeUntil(this.unsub), map(entities => entities.filter(x => this.light_ids.indexOf(x.entity_id) !== -1)))
-      .subscribe(entities => {
-        // console.log(this.light_ids);
-        // console.log(entities);
-        let sum = 0;
-        entities.map(e => sum += e.attributes.brightness); // take the average of all light brightness
-        this.brightness = Math.round(sum / entities.length);
+      .pipe(
+        takeUntil(this.unsub),
+        map(entities => entities.find(x => x.entity_id === this.light_id))
+      )
+      .subscribe(entity => {
+        console.log(entity);
+        this.brightness = entity.attributes.brightness;
+        this.name = entity.attributes.friendly_name;
         if (this.brightness) {
           this.class = 'mat-fab mat-elevation-z7 lit';
         } else {
@@ -54,16 +56,14 @@ export class LightComponent implements OnInit, OnDestroy {
 
   onDragEnd(e) {
     // console.log(e);
-    this.light_ids.map(entity_id => {
-      const service_data = { entity_id: entity_id };
-      if (this.new_brightness < 0) {
-        this.hassService.call('light', 'turn_off', service_data);
-      } else {
-        service_data['brightness'] = this.new_brightness;
-        this.hassService.call('light', 'turn_on', service_data);
-        this.hassService.call('light', 'turn_on', service_data); // some hacky workaround for ios websocket not triggering status change
-      }
-    });
+    const service_data = { entity_id: this.light_id };
+    if (this.new_brightness < 0) {
+      this.hassService.call('light', 'turn_off', service_data);
+    } else {
+      service_data['brightness'] = this.new_brightness;
+      this.hassService.call('light', 'turn_on', service_data);
+      this.hassService.call('light', 'turn_on', service_data); // some hacky workaround for websocket not triggering status change
+    }
     this.snackBar.dismiss();
   }
 

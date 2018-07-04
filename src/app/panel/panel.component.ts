@@ -8,7 +8,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./panel.component.css']
 })
 export class PanelComponent implements OnChanges, OnInit {
-  light_groups: any;
+  light_ids: string[];
   @Input('room') room: string;
 
   constructor(
@@ -28,7 +28,7 @@ export class PanelComponent implements OnChanges, OnInit {
     this.hassService.states
       .pipe(take(cnt))
       .subscribe(s => {
-        this.light_groups = this.getEntityIds('group.' + this.room, s);
+        this.getEntityIds('group.' + this.room, s);
         // console.log(this.light_groups);
       });
   }
@@ -36,21 +36,9 @@ export class PanelComponent implements OnChanges, OnInit {
   getEntityIds(group: string, states: any[]): any {
     // console.log(states);
     const entity = states.find(x => x.entity_id === group);
-    const result = [];
     if (entity) {
-      entity.attributes.entity_id.map(e => {
-        if (e.startsWith('light.') && result.indexOf(e) === -1) {
-          result.push(e);
-        }
-        if (e.startsWith('group.')) {
-          result.push(this.getEntityIds(e, states));
-        }
-      });
-      return {
-        entity_id: entity.entity_id,
-        name: entity.attributes.friendly_name,
-        entities: result
-      };
+     this.light_ids = entity.attributes.entity_id.filter((x: string) => x.startsWith('light.'));
+     console.log(this.light_ids);
     }
   }
 }

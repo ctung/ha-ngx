@@ -1,8 +1,8 @@
-<div *ngIf="light_groups">
+<div *ngIf="light_ids">
     <mat-card>
         <mat-card-title>Lights</mat-card-title>
         <mat-card-content>
-            <app-light *ngFor="let entity of light_groups.entities" [light_ids]="entity.entities" [name]="entity.name"></app-light>
+            <app-light *ngFor="let light_id of light_ids" [light_id]="light_id"></app-light>
         </mat-card-content>
     </mat-card>
 </div>
