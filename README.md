@@ -30,10 +30,49 @@ If you want to make this app accessible from the internet, you will also need to
 
 ## Home Assistant Configuration
 
-This web app reads your home assistant groups to collect information about your rooms, and uses the group names to associate rooms with the layer names in the floorplan SVG.  Here is an example [groups.yaml](https://github.com/ctung/Home-AssistantConfig/blob/master/groups.yaml)
+This web app reads your home assistant groups to collect information about your rooms, and uses the group names to associate rooms with the layer names in the floorplan SVG.
 
 * Each Room should have it's own group, where the group name must match a layer name in your floorplan SVG
-* Each Room group should have sub-groups as entities that group together the light elements you want to switch
+* Each Room should have a list of entities for that room.
+* Each entity should have a friendly_name that can identity it eg "Kitchen Light"
+
+```yaml
+  default_view:
+    view: yes
+    icon: mdi:home
+    entities:
+      - group.main
+      - group.hall
+      - group.family
+      - group.master_bed
+      - group.bed1
+      - group.bed2
+
+  main:
+    name: Main Room
+    entities:
+      - light.ge_unknown_type5044_id3038_level
+
+  hall:
+    name: Hallway
+    entities:
+
+  family:
+    name: Family Room
+    entities:
+
+  master_bed:
+    name: Master Bedroom
+    entities:
+
+  bed1:
+    name: Bedroom 1
+    entities:
+
+  bed2:
+    name: Bedroom 2
+    entities:
+```
 
 ## Floorplan SVG
 
