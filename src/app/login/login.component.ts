@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      ws_url: ['', Validators.required],
-      password: ['', Validators.required]
+      ws_url: [''],
+      password: ['']
     });
 
     // bypass login screen if url and password found in localStorage
