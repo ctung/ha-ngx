@@ -7,7 +7,7 @@
       <div class="map-button" #home mat-button (click)="drawer.toggle()">
         <mat-icon>home</mat-icon>
       </div>
-      <span>{{friendly_name}}</span>
+      <span>{{friendly_name | capitalizeFirst}}</span>
     </mat-toolbar>
     <app-panel [room]="room"></app-panel>
   </mat-drawer-content>

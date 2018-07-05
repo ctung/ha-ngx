@@ -1,2 +1,29 @@
-<svg id="svgout" width="100%" height="100%">
-</svg>
+<mat-grid-list cols="4" rowHeight="1:1">
+    <mat-grid-tile colspan="4"></mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card class="button" (click)="onClick('all_lights')">
+            <img src="../../assets/iconmonstr-light-bulb-16.svg" type="svg:xml" style="width:40px">
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card class="button" (click)="onClick('all_locks')">
+            <img src="../../assets/iconmonstr-lock-4.svg" type="svg:xml" style="width:40px">
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card class="button" (click)="onClick('all_cameras')">
+            <img src="../../assets/iconmonstr-video-camera-2.svg" type="svg:xml" style="width:40px">
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card class="button" (click)="onClick('all_climate')">
+            <img src="../../assets/iconmonstr-weather-6.svg" type="svg:xml" style="width:40px">
+        </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="4" rowspan="4">
+        <mat-card class="fplan">
+            <svg id="svgout" width="100%" height="100%">
+            </svg>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>

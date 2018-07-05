@@ -35,4 +35,15 @@ export class MapComponent implements OnInit {
     });
   }
 
+  onClick(e) {
+    this.hassService.states
+    .pipe(take(1), map(entities => entities.filter(entity => entity.entity_id === 'group.' + e)))
+    .subscribe(entities => {
+      if (entities.length === 1) {
+        // console.log(entities[0]);
+        this.myEvent.emit({ name: e, friendly_name: entities[0].attributes.friendly_name});
+      }
+    });
+  }
+
 }
