@@ -93,7 +93,11 @@ export class HassService {
         if (data.type === 'event' && data.event.event_type === 'state_changed') {
           // console.log(data.event.data);
           this._state_changed.next(Object.assign({}, data.event).data);
-          this.dataStore.states.find(x => x.entity_id === data.event.data.entity_id).attributes = data.event.data.new_state.attributes;
+          const state = this.dataStore.states.find(x => x.entity_id === data.event.data.entity_id);
+          if (state) {
+            state.attributes = data.event.data.new_state.attributes;
+            state.state = data.event.data.new_state.state;
+          }
           this._states.next(Object.assign({}, this.dataStore).states);
         }
 

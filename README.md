@@ -131,6 +131,17 @@ The floorplans must be drawn with Inkscape with one layer group per room
 7. If the room has light groups, then render material card for the lights, and a light button component for each light group (`./panel/panel.component.html`)
 8. The light button components monitor for drag events, sending a call to the HA websocket to change the light state.  The light button component also subscribes to the states observable, so if the brightness is non-zero, the button changes color to yellow. (`./light/light.component.ts`)
 
+## Z-Wave 
+Note that if you are using Z-Wave lights, I found I needed to set the [refresh_value](https://www.home-assistant.io/docs/z-wave/installation/#refresh_value) to true to see state_changed events on the bus:
+```yaml
+zwave:
+  usb_path: /dev/ttyACM0
+  device_config_domain:
+    light:
+      refresh_value: true
+      delay: 1
+```
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
