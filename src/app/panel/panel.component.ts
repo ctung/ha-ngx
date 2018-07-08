@@ -1,5 +1,5 @@
 import { Component, OnChanges, Input, OnInit } from '@angular/core';
-import { HassService } from '../hass.service';
+import { HassService } from '../services/hass.service';
 import { take, first } from 'rxjs/operators';
 
 @Component({

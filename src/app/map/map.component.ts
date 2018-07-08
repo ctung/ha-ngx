@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { HassService } from '../hass.service';
+import { HassService } from '../services/hass.service';
 import { map, take } from 'rxjs/operators';
 declare var Snap: any;
 

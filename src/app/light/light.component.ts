@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { HassService } from '../hass.service';
+import { HassService } from '../services/hass.service';
 import { map, take, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material';

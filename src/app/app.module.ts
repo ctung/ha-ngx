@@ -9,8 +9,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 import { AuthGuardService } from './login/auth-guard.service';
 import { AuthService } from './login/auth.service';
-import { WebsocketService } from './websocket.service';
-import { HassService } from './hass.service';
+import { WebsocketService } from './services/websocket.service';
+import { HassService } from './services/hass.service';
 
 import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
