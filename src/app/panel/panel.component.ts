@@ -1,6 +1,6 @@
 import { Component, OnChanges, Input, OnInit } from '@angular/core';
 import { HassService } from '../hass.service';
-import { take } from 'rxjs/operators';
+import { take, first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-panel',
@@ -16,31 +16,16 @@ export class PanelComponent implements OnChanges, OnInit {
   ) {
   }
 
-  ngOnChanges() {
-    this.updateControls(1);
-  }
-
   ngOnInit() {
-    this.updateControls(2); // take 2 because first one is before init of states
+    this.update();
   }
 
-  updateControls(cnt: number) {
-    this.hassService.states
-      .pipe(take(cnt))
-      .subscribe(s => {
-        this.getEntityIds('group.' + this.room, s);
-        // console.log(this.light_groups);
-      });
+  ngOnChanges() {
+    this.update();
   }
 
-  getEntityIds(group: string, states: any[]): any {
-    // console.log(states);
-    const entity = states.find(x => x.entity_id === group);
-    if (entity) {
-      this.light_ids = entity.attributes.entity_id.filter((x: string) => x.startsWith('light.'));
-      // add more component types here
-      // this.component_type_ids = entity.attributes_id.filter((x:string) => x.startsWith('component_type'));
-
-    }
+  update() {
+    this.hassService.getEntityIds('group.' + this.room)
+      .subscribe(x => this.light_ids = x.filter(y => y.startsWith('light.')));
   }
 }

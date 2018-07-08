@@ -1,7 +1,5 @@
-.mat-card {
-    background-color: rgba(255,255,255,0.6);
-    border-radius: 10px 10px 10px 10px;
-    margin: 10px;
+.grid-container {
+    margin: 5px;
 }
 
 .mat-button-toggle {
@@ -12,3 +10,19 @@
 .mat-button-toggle-checked {
     background-color: #3f51b5;
 }
+
+.dashboard-card {
+    position: absolute;
+    background-color: rgba(255,255,255,0.6);
+    border-radius: 10px 10px 10px 10px;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    padding: 10px;
+  }
+/*
+.dashboard-card-content {
+    text-align: center;
+}
+*/

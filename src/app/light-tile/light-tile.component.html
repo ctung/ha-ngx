@@ -1,0 +1,6 @@
+<mat-card class="dashboard-card" *ngIf="light_ids && light_ids.length">
+  <mat-card-title>Lights</mat-card-title>
+  <mat-card-content class="dashboard-card-content">
+    <app-light *ngFor="let light_id of light_ids" [light_id]="light_id"></app-light>
+  </mat-card-content>
+</mat-card>

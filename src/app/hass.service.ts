@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WebsocketService } from './websocket.service';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Subject, Observable } from 'rxjs';
+import { map, filter, find, take, first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -102,5 +102,15 @@ export class HassService {
         }
 
       });
+  }
+
+  // return entity_ids for a particular group as an observable
+  getEntityIds(group: string): Observable<string[]> {
+    return this._states.asObservable()
+    .pipe(
+      filter(x => x.length > 0),
+      map(x => x.find(y => y.entity_id === group)),
+      map(x => x ? x.attributes.entity_id : null)
+    );
   }
 }

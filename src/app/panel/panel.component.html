@@ -1,40 +1,45 @@
-<div *ngIf="light_ids && light_ids.length">
-    <mat-card>
-        <mat-card-title>Lights</mat-card-title>
-        <mat-card-content>
-            <app-light *ngFor="let light_id of light_ids" [light_id]="light_id"></app-light>
-        </mat-card-content>
-    </mat-card>
+<div class="grid-container">
+    <mat-grid-list cols="3" rowHeight="1:1">
+        <mat-grid-tile colspan="3">
+            <app-light-tile [light_ids]="light_ids"></app-light-tile>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card class="dashboard-card">
+                <mat-card-title>Climate</mat-card-title>
+                <mat-card-content>
+                    <mat-button-toggle-group>
+                        <mat-button-toggle>68</mat-button-toggle>
+                        <mat-button-toggle>69</mat-button-toggle>
+                        <mat-button-toggle checked="true">70</mat-button-toggle>
+                        <mat-button-toggle>71</mat-button-toggle>
+                        <mat-button-toggle>72</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card class="dashboard-card">
+                <mat-card-title>Covers</mat-card-title>
+                <mat-card-content>
+                    <mat-button-toggle-group>
+                        <mat-button-toggle checked="true">Open</mat-button-toggle>
+                        <mat-button-toggle>Shut</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+        <mat-grid-tile>
+            <mat-card class="dashboard-card">
+                <mat-card-title>Scenes</mat-card-title>
+                <mat-card-content>
+                    <mat-button-toggle-group>
+                        <mat-button-toggle>Bright</mat-button-toggle>
+                        <mat-button-toggle>Dim</mat-button-toggle>
+                        <mat-button-toggle>TV</mat-button-toggle>
+                        <mat-button-toggle>Off</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </mat-card-content>
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
 </div>
-<mat-card>
-    <mat-card-title>Temperature</mat-card-title>
-    <mat-card-content>
-        <mat-button-toggle-group>
-            <mat-button-toggle>68</mat-button-toggle>
-            <mat-button-toggle>69</mat-button-toggle>
-            <mat-button-toggle checked="true">70</mat-button-toggle>
-            <mat-button-toggle>71</mat-button-toggle>
-            <mat-button-toggle>72</mat-button-toggle>
-        </mat-button-toggle-group>
-    </mat-card-content>
-</mat-card>
-<mat-card>
-    <mat-card-title>Window Shades</mat-card-title>
-    <mat-card-content>
-        <mat-button-toggle-group>
-            <mat-button-toggle checked="true">Open</mat-button-toggle>
-            <mat-button-toggle>Shut</mat-button-toggle>
-        </mat-button-toggle-group>
-    </mat-card-content>
-</mat-card>
-<mat-card>
-    <mat-card-title>Scenes</mat-card-title>
-    <mat-card-content>
-        <mat-button-toggle-group>
-            <mat-button-toggle>Bright</mat-button-toggle>
-            <mat-button-toggle>Dim</mat-button-toggle>
-            <mat-button-toggle>TV</mat-button-toggle>
-            <mat-button-toggle>Off</mat-button-toggle>
-        </mat-button-toggle-group>
-    </mat-card-content>
-</mat-card>

@@ -33,6 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LightComponent } from './light/light.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { NickNamePipe, CapitalizeFirstPipe } from './custom.pipe';
+import { LightTileComponent } from './light-tile/light-tile.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { NickNamePipe, CapitalizeFirstPipe } from './custom.pipe';
     LightComponent,
     SnackbarComponent,
     NickNamePipe,
-    CapitalizeFirstPipe
+    CapitalizeFirstPipe,
+    LightTileComponent
   ],
   imports: [
     BrowserModule,
