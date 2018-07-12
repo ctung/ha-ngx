@@ -13,7 +13,7 @@ export class LightTileComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.light_ids);
+    // console.log(this.light_ids);
   }
 
   get diagnostic() {

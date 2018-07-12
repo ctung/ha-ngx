@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularDraggableModule } from 'angular2-draggable';
 
 import { AppComponent } from './app.component';
@@ -27,13 +27,16 @@ import {
   MatInputModule,
   MatButtonToggleModule,
   MatSnackBarModule,
-  MatGridListModule
- } from '@angular/material';
+  MatGridListModule,
+  MatDialogModule
+} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LightComponent } from './light/light.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { NickNamePipe, CapitalizeFirstPipe } from './custom.pipe';
 import { LightTileComponent } from './light-tile/light-tile.component';
+import { ClimateTileComponent, ClimateDialogComponent } from './climate-tile/climate-tile.component';
+
 
 
 @NgModule({
@@ -47,7 +50,9 @@ import { LightTileComponent } from './light-tile/light-tile.component';
     SnackbarComponent,
     NickNamePipe,
     CapitalizeFirstPipe,
-    LightTileComponent
+    LightTileComponent,
+    ClimateTileComponent,
+    ClimateDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -64,11 +69,13 @@ import { LightTileComponent } from './light-tile/light-tile.component';
     MatInputModule,
     MatButtonToggleModule,
     MatSnackBarModule,
+    MatDialogModule,
     AngularDraggableModule,
-    MatGridListModule
+    MatGridListModule,
+    FormsModule
   ],
   providers: [AuthGuardService, AuthService, WebsocketService, HassService],
-  bootstrap: [AppComponent ],
-  entryComponents: [ SnackbarComponent ]
+  bootstrap: [AppComponent],
+  entryComponents: [SnackbarComponent, ClimateDialogComponent]
 })
 export class AppModule { }

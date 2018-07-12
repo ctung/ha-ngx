@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { WebsocketService } from './websocket.service';
 import { BehaviorSubject, Subject, Observable } from 'rxjs';
 import { map, filter, find, take, first } from 'rxjs/operators';
@@ -6,7 +6,7 @@ import { map, filter, find, take, first } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class HassService {
+export class HassService implements OnInit {
   // store callbacks that can be run on socket responses, if the id matches
   private id = 0;
   private msgHandler: any = {};
@@ -48,6 +48,9 @@ export class HassService {
     */
   }
 
+  ngOnInit() {
+  }
+
   get states() { return this._states.asObservable(); }
   get services() { return this._services.asObservable(); }
   get config() { return this._config.asObservable(); }
@@ -86,7 +89,7 @@ export class HassService {
     this.wsService.socket
       .pipe(map(data => JSON.parse(data)))
       .subscribe(data => {
-        // console.log(data);
+        console.log(data);
         // run callbacks that match msgId
         if (this.msgHandler.hasOwnProperty(data.id)) { this.msgHandler[data.id](data); }
         // emit state_changed event, update dataStore and emit new states event
@@ -107,10 +110,11 @@ export class HassService {
   // return entity_ids for a particular group as an observable
   getEntityIds(group: string): Observable<string[]> {
     return this._states.asObservable()
-    .pipe(
-      filter(x => x.length > 0),
-      map(x => x.find(y => y.entity_id === group)),
-      map(x => x ? x.attributes.entity_id : null)
-    );
+      .pipe(
+        filter(x => x.length > 0),
+        map(x => x.find(y => y.entity_id === group)),
+        map(x => x ? x.attributes.entity_id : null)
+      );
   }
+
 }

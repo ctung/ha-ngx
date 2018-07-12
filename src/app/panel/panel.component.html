@@ -4,22 +4,11 @@
             <app-light-tile [light_ids]="light_ids"></app-light-tile>
         </mat-grid-tile>
         <mat-grid-tile>
-            <mat-card class="dashboard-card">
-                <mat-card-title>Climate</mat-card-title>
-                <mat-card-content>
-                    <mat-button-toggle-group>
-                        <mat-button-toggle>68</mat-button-toggle>
-                        <mat-button-toggle>69</mat-button-toggle>
-                        <mat-button-toggle checked="true">70</mat-button-toggle>
-                        <mat-button-toggle>71</mat-button-toggle>
-                        <mat-button-toggle>72</mat-button-toggle>
-                    </mat-button-toggle-group>
-                </mat-card-content>
-            </mat-card>
+            <app-climate-tile></app-climate-tile>
         </mat-grid-tile>
-        <mat-grid-tile>
+        <mat-grid-tile colspan="2">
             <mat-card class="dashboard-card">
-                <mat-card-title>Covers</mat-card-title>
+                <mat-card-title>Shades</mat-card-title>
                 <mat-card-content>
                     <mat-button-toggle-group>
                         <mat-button-toggle checked="true">Open</mat-button-toggle>
@@ -28,7 +17,7 @@
                 </mat-card-content>
             </mat-card>
         </mat-grid-tile>
-        <mat-grid-tile>
+        <mat-grid-tile colspan="3">
             <mat-card class="dashboard-card">
                 <mat-card-title>Scenes</mat-card-title>
                 <mat-card-content>

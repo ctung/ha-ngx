@@ -50,8 +50,8 @@ getEntityIds(group: string, states: any[]): any {
 
 Install [Angular CLI](https://github.com/angular/angular-cli) if you don't already have it. I recommend [MS Visual Studio](https://visualstudio.microsoft.com/vs/) for code edits
 
-* Run `git clone https://github.com/ctung/cape-automation.git` to grab a copy of the code
-* `cd cape-automation`
+* Run `git clone https://github.com/ctung/ha-ngx.git` to grab a copy of the code
+* `cd ha-ngx`
 * Run `npm update` to grab all the necessary modules
 * Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 * When You're happy with your changes, run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.  
