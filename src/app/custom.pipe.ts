@@ -5,8 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class NickNamePipe implements PipeTransform {
   transform(value: string): string {
     const val = value.split(' ')[0];
-    if (val.length <= 4) { return val; }
-    return val.substr(0, 3);
+    if (val.length <= 8) { return val; }
+    return val.substr(0, 8);
   }
 }
 

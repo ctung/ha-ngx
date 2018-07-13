@@ -38,7 +38,6 @@ export class ClimateTileComponent implements OnInit, OnDestroy {
   }
 
   drawButton() {
-
     const s = Snap('#svg-climate');
     // const shadow = s.filter(Snap.filter.shadow(0, 3, 0.5));
     s.attr({ viewBox: '0 0 100 100' });

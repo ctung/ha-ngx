@@ -34,7 +34,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LightComponent } from './light/light.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { NickNamePipe, CapitalizeFirstPipe } from './custom.pipe';
-import { LightTileComponent } from './light-tile/light-tile.component';
 import { ClimateTileComponent, ClimateDialogComponent } from './climate-tile/climate-tile.component';
 
 
@@ -50,7 +49,6 @@ import { ClimateTileComponent, ClimateDialogComponent } from './climate-tile/cli
     SnackbarComponent,
     NickNamePipe,
     CapitalizeFirstPipe,
-    LightTileComponent,
     ClimateTileComponent,
     ClimateDialogComponent
   ],

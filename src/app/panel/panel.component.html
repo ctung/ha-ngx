@@ -1,7 +1,7 @@
 <div class="grid-container">
     <mat-grid-list cols="3" rowHeight="1:1">
-        <mat-grid-tile colspan="3">
-            <app-light-tile [light_ids]="light_ids"></app-light-tile>
+        <mat-grid-tile *ngFor="let light_id of light_ids">
+            <app-light [light_id]="light_id"></app-light>
         </mat-grid-tile>
         <mat-grid-tile>
             <app-climate-tile></app-climate-tile>

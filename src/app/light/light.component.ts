@@ -4,7 +4,9 @@ import { map, take, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { NickNamePipe } from '../custom.pipe';
 
+declare var Snap: any;
 // Note for Z-Wave, I needed to set the following to see state_changed events on lights:
 // zwave:
 //   usb_path: /dev/ttyACM0
@@ -17,6 +19,7 @@ import { SnackbarComponent } from '../snackbar/snackbar.component';
   selector: 'app-light',
   templateUrl: './light.component.html',
   styleUrls: ['./light.component.css'],
+  providers: [ NickNamePipe ],
   encapsulation: ViewEncapsulation.None
 })
 export class LightComponent implements OnInit, OnDestroy {
@@ -24,20 +27,24 @@ export class LightComponent implements OnInit, OnDestroy {
   private new_brightness: number;
   private unsub: Subject<any> = new Subject();
   private snackBarMsg: Subject<any> = new Subject();
-  class: string;
   name: string;
+  private svg_text: any;
+  private svg: any;
 
   @Input('light_id') light_id: string;
 
   constructor(
     private hassService: HassService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    private nickName: NickNamePipe
   ) { }
 
   ngOnInit() {
-    // initialize from states BehaviorSubject, take 2 because first is null
+    this.drawButton();
+
+    // initialize from states BehaviorSubject
     this.hassService.states
-      .pipe(take(2), map(entities => entities.find(x => x.entity_id === this.light_id)))
+      .pipe(take(1), map(entities => entities.find(x => x.entity_id === this.light_id)))
       .subscribe(entity => this.updateComponent(entity));
 
     // listen to state_changed events, unsubscribe when the component is destroyed
@@ -50,20 +57,37 @@ export class LightComponent implements OnInit, OnDestroy {
       });
   }
 
+  drawButton() {
+    const s = Snap('#svg-light');
+    s.attr({ viewBox: '0 0 36 36' });
+    this.svg_text = s.text(18, 8, '');
+    this.svg_text.attr({ 'font-size': 10, 'text-anchor': 'middle' });
+    const g = s.group();
+    Snap.load('../../assets/iconmonstr-light-bulb-16.svg', (f) => {
+      this.svg = f;
+      g.append(f).transform('t6,12');
+    });
+    s.drag(
+      this.onMove.bind(this),
+      this.onStart.bind(this),
+      this.onEnd.bind(this)
+    );
+  }
+
   updateComponent(entity: any) {
     this.brightness = entity.attributes.brightness;
     this.name = entity.attributes.friendly_name;
-    this.class = 'mat-fab mat-elevation-z7' + (this.brightness ? ' lit' : '');
+    this.svg_text.attr({'text': this.nickName.transform(this.name)});
   }
 
-  onDragBegin(e) {
+  onStart(e) {
     this.snackBar.openFromComponent(SnackbarComponent, {
       panelClass: ['roboto-font'],
       data: this.snackBarMsg
     });
   }
 
-  onDragEnd(e) {
+  onEnd(e) {
     // console.log(e);
     const service_data = { entity_id: this.light_id };
     if (this.new_brightness < 0) {
@@ -75,11 +99,11 @@ export class LightComponent implements OnInit, OnDestroy {
     this.snackBar.dismiss();
   }
 
-  onMoving(e) {
-    if (e.y < 0) {
+  onMove(dx, dy, x, y, e) {
+    if (dy < 0) {
       this.new_brightness = -1;
     } else {
-      this.new_brightness = Math.min(Math.round(Math.sqrt(e.y ** 2 + e.x ** 2) / 2), 100);
+      this.new_brightness = Math.min(Math.round(Math.sqrt(dx ** 2 + dy ** 2) / 2), 100);
     }
     const new_val = (this.new_brightness >= 0) ? this.new_brightness + '%' : 'off';
     this.snackBarMsg.next('Set ' + this.name + ' lights to ' + new_val);
