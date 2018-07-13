@@ -19,7 +19,7 @@ declare var Snap: any;
   selector: 'app-light',
   templateUrl: './light.component.html',
   styleUrls: ['./light.component.css'],
-  providers: [ NickNamePipe ],
+  providers: [NickNamePipe],
   encapsulation: ViewEncapsulation.None
 })
 export class LightComponent implements OnInit, OnDestroy {
@@ -27,7 +27,6 @@ export class LightComponent implements OnInit, OnDestroy {
   private new_brightness: number;
   private unsub: Subject<any> = new Subject();
   private snackBarMsg: Subject<any> = new Subject();
-  name: string;
   private svg_text: any;
   private svg: any;
 
@@ -61,11 +60,11 @@ export class LightComponent implements OnInit, OnDestroy {
     const s = Snap('#svg-light');
     s.attr({ viewBox: '0 0 36 36' });
     this.svg_text = s.text(18, 8, '');
-    this.svg_text.attr({ 'font-size': 10, 'text-anchor': 'middle' });
+    this.svg_text.attr({ 'font-size': 9, 'text-anchor': 'middle' });
     const g = s.group();
     Snap.load('../../assets/iconmonstr-light-bulb-16.svg', (f) => {
-      this.svg = f;
-      g.append(f).transform('t6,12');
+      this.svg = g.append(f).transform('t6,12');
+      this.updateSvg(this.brightness);
     });
     s.drag(
       this.onMove.bind(this),
@@ -74,10 +73,16 @@ export class LightComponent implements OnInit, OnDestroy {
     );
   }
 
+  updateSvg(brightness: number) {
+    if (this.svg) {
+      this.svg.attr({'fill': (brightness > 0 ) ? '#ffe600' : '#808080'});
+    }
+  }
+
   updateComponent(entity: any) {
     this.brightness = entity.attributes.brightness;
-    this.name = entity.attributes.friendly_name;
-    this.svg_text.attr({'text': this.nickName.transform(this.name)});
+    this.updateSvg(this.brightness);
+    this.svg_text.attr({ 'text': this.nickName.transform(entity.attributes.friendly_name) });
   }
 
   onStart(e) {
@@ -96,6 +101,7 @@ export class LightComponent implements OnInit, OnDestroy {
       service_data['brightness'] = this.new_brightness;
       this.hassService.call('light', 'turn_on', service_data);
     }
+    this.updateSvg(this.new_brightness);
     this.snackBar.dismiss();
   }
 
@@ -106,7 +112,7 @@ export class LightComponent implements OnInit, OnDestroy {
       this.new_brightness = Math.min(Math.round(Math.sqrt(dx ** 2 + dy ** 2) / 2), 100);
     }
     const new_val = (this.new_brightness >= 0) ? this.new_brightness + '%' : 'off';
-    this.snackBarMsg.next('Set ' + this.name + ' lights to ' + new_val);
+    this.snackBarMsg.next('Set lights to ' + new_val);
   }
 
   ngOnDestroy() {
