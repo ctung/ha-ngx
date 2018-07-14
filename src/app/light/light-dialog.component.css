@@ -1,0 +1,32 @@
+
+
+.container {
+    height: 200px;
+    position: relative;
+    margin: auto;
+    font-family: 'Share Tech', sans-serif;
+}
+
+#percent, #svg {
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#percent {
+    line-height: 20px;
+    height: 20px;
+    width: 100%;
+    top: 90px;
+    font-size: 43px;
+    text-align: center;
+    color: #fff;
+    opacity: 0.8
+}
+
+.light-dialog-container .mat-dialog-container {
+    background-color: #3f51b5;
+    border-radius: 10px 10px 10px 10px;
+}

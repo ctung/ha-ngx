@@ -1,7 +1,8 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 declare var Snap: any;
 
 @Component({
@@ -21,15 +22,15 @@ export class ClimateTileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.drawButton();
     this.temp
-    .pipe(takeUntil(this.unsub))
-    .subscribe(t => {
-      console.log(t);
-      if (t) {
-        this.setTemp.attr({ text: t + '\u00B0' });
-      } else {
-        this.setTemp.attr({ text: 'OFF' });
-      }
-    });
+      .pipe(takeUntil(this.unsub))
+      .subscribe(t => {
+        console.log(t);
+        if (t) {
+          this.setTemp.attr({ text: t + '\u00B0' });
+        } else {
+          this.setTemp.attr({ text: 'OFF' });
+        }
+      });
   }
 
   ngOnDestroy() {
@@ -82,10 +83,11 @@ export class ClimateTileComponent implements OnInit, OnDestroy {
 
 @Component({
   selector: 'app-climate-dialog',
-  templateUrl: 'climate-dialog.html'
+  template: `<svg id="svg-climate-dialog" width="100%" height="100%"></svg>`,
+  styles: [` .climate-dialog-container .mat-dialog-container { padding: 0 } `],
+  encapsulation: ViewEncapsulation.None
 })
 export class ClimateDialogComponent implements OnInit, OnDestroy {
-  private shadow: any;
   private setx = <any>[];
   private setx_t = <any>[];
   private colors = ['#3182bd', '#6baed6', '#bdd7e7', '#eff3ff', '#fff', '#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026'];
@@ -101,16 +103,16 @@ export class ClimateDialogComponent implements OnInit, OnDestroy {
     this.data
       .pipe(takeUntil(this.unsub))
       .subscribe(y => {
-      const offset = (window.innerHeight - 600) / 2;
-      const i = Math.floor((500 - (y - offset)) / 50);
-      if (i !== this.last_i && this.setx.length > i) {
-        this.last_i = i;
-        this.clearShadow();
-        if (i >= 0) {
-          this.setx[i].attr({ fill: this.colors[i] });
+        const offset = (window.innerHeight - 600) / 2;
+        const i = Math.floor((500 - (y - offset)) / 50);
+        if (i !== this.last_i && this.setx.length > i) {
+          this.last_i = i;
+          this.clearShadow();
+          if (i >= 0) {
+            this.setx[i].attr({ fill: this.colors[i] });
+          }
         }
-      }
-    });
+      });
   }
 
   ngOnDestroy() {

@@ -32,6 +32,7 @@ import {
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LightComponent } from './light/light.component';
+import { LightDialogComponent } from './light/light-dialog.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { NickNamePipe, CapitalizeFirstPipe } from './custom.pipe';
 import { ClimateTileComponent, ClimateDialogComponent } from './climate-tile/climate-tile.component';
@@ -50,7 +51,8 @@ import { ClimateTileComponent, ClimateDialogComponent } from './climate-tile/cli
     NickNamePipe,
     CapitalizeFirstPipe,
     ClimateTileComponent,
-    ClimateDialogComponent
+    ClimateDialogComponent,
+    LightDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -74,6 +76,6 @@ import { ClimateTileComponent, ClimateDialogComponent } from './climate-tile/cli
   ],
   providers: [AuthGuardService, AuthService, WebsocketService, HassService],
   bootstrap: [AppComponent],
-  entryComponents: [SnackbarComponent, ClimateDialogComponent]
+  entryComponents: [SnackbarComponent, ClimateDialogComponent, LightDialogComponent]
 })
 export class AppModule { }
