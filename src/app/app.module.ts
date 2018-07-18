@@ -35,7 +35,10 @@ import { LightComponent } from './light/light.component';
 import { LightDialogComponent } from './light/light-dialog.component';
 import { SnackbarComponent } from './snackbar/snackbar.component';
 import { NickNamePipe, CapitalizeFirstPipe } from './custom.pipe';
-import { ClimateTileComponent, ClimateDialogComponent } from './climate-tile/climate-tile.component';
+// import { ClimateTileComponent, ClimateDialogComponent } from './climate-tile/climate-tile.component';
+import { NestDialComponent } from './nest-dial/nest-dial.component';
+import { ClimateComponent } from './climate/climate.component';
+import { ClimateDialogComponent } from './climate/climate-dialog.component';
 
 
 
@@ -50,9 +53,11 @@ import { ClimateTileComponent, ClimateDialogComponent } from './climate-tile/cli
     SnackbarComponent,
     NickNamePipe,
     CapitalizeFirstPipe,
-    ClimateTileComponent,
+    // ClimateTileComponent,
     ClimateDialogComponent,
-    LightDialogComponent
+    LightDialogComponent,
+    NestDialComponent,
+    ClimateComponent
   ],
   imports: [
     BrowserModule,

@@ -1,15 +1,47 @@
 import { Component, OnInit, OnDestroy, Inject, ViewEncapsulation } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
-declare var Snap: any;
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'app-light-dialog',
-  templateUrl: 'light-dialog.component.html',
-  styleUrls: ['light-dialog.component.scss'],
+  selector: 'app-climate-dialog',
+  templateUrl: './climate-dialog.component.html',
+  styleUrls: ['./climate-dialog.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
+export class ClimateDialogComponent implements OnInit, OnDestroy {
+  private unsub: Subject<any> = new Subject();
+
+  options = {
+    diameter: 400,
+    minValue: 55,
+    maxValue: 80,
+    numTicks: 150,
+  };
+/*
+  state = {
+    away: false,
+    has_leaf: true,
+    hvac_state: 'off',
+    ambient_temperature: 15.5,
+    target_temperature: 20.5
+  };
+  */
+  constructor(
+    public dialogRef: MatDialogRef<ClimateDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public state: any
+  ) { }
+
+  ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    this.unsub.next();
+    this.unsub.complete();
+  }
+}
+
+/*
 export class LightDialogComponent implements OnInit, OnDestroy {
   private unsub: Subject<any> = new Subject();
   private arc: any;
@@ -32,10 +64,7 @@ export class LightDialogComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-    this.unsub.next();
-    this.unsub.complete();
-  }
+
 
   private drawDial() {
     const canvasSize = 200;
@@ -68,3 +97,4 @@ export class LightDialogComponent implements OnInit, OnDestroy {
   }
 
 }
+*/

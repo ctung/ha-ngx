@@ -19,7 +19,7 @@ declare var Snap: any;
 @Component({
   selector: 'app-light',
   templateUrl: './light.component.html',
-  styleUrls: ['./light.component.css'],
+  styleUrls: ['./light.component.scss'],
   providers: [NickNamePipe]
 })
 export class LightComponent implements OnInit, OnDestroy {

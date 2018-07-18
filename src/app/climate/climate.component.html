@@ -1,0 +1,8 @@
+<mat-card class="dashboard-card">
+  <app-nest-dial 
+    [options]="options" [state]="state" 
+    (onmove)="onMove($event)" 
+    (onstart)="onDragBegin($event)" 
+    (onend)="onDragEnd($event)">
+  </app-nest-dial>
+</mat-card>

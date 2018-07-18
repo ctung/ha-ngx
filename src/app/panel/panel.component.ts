@@ -5,7 +5,7 @@ import { take, first } from 'rxjs/operators';
 @Component({
   selector: 'app-panel',
   templateUrl: './panel.component.html',
-  styleUrls: ['./panel.component.css']
+  styleUrls: ['./panel.component.scss']
 })
 export class PanelComponent implements OnChanges, OnInit {
   light_ids: string[];

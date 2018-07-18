@@ -26,6 +26,7 @@
     "angular2-draggable": "^2.0.0-beta.0",
     "core-js": "^2.5.5",
     "hammerjs": "^2.0.8",
+    "node-sass": "^4.9.2",
     "rxjs": "^6.1.0",
     "snapsvg": "^0.5.1",
     "ws": "^5.2.0",
