@@ -245,7 +245,6 @@ export class NestDialComponent implements OnInit, AfterViewInit {
 
   // * RENDER - HVAC state
   renderHvacState() {
-    // console.log(this.dial.attr('class'));
     this.dial.attr('class').split(' ').forEach((e: string) => {
       if (e.startsWith('dial--state--')) { this.dial.removeClass(e); }
     });
@@ -312,79 +311,3 @@ export class NestDialComponent implements OnInit, AfterViewInit {
     return Math.round(num * 2) / 2;
   }
 }
-/*
-         * Drag to control
-
-        const _drag = {
-          inProgress: false,
-          startPoint: null,
-          startTemperature: 0,
-          lockAxis: undefined
-        };
-
-        function eventPosition(ev) {
-          if (ev.targetTouches && ev.targetTouches.length) {
-            return [ev.targetTouches[0].clientX, ev.targetTouches[0].clientY];
-          } else {
-            return [ev.x, ev.y];
-          }
-        }
-
-        let startDelay;
-        function dragStart(ev) {
-          startDelay = setTimeout(function () {
-            setClass(svg, 'dial--edit', true);
-            _drag.inProgress = true;
-            _drag.startPoint = eventPosition(ev);
-            _drag.startTemperature = self.target_temperature || options.minValue;
-            _drag.lockAxis = undefined;
-          }, 1000);
-        }
-
-        function dragEnd(ev) {
-          clearTimeout(startDelay);
-          setClass(svg, 'dial--edit', false);
-          if (!_drag.inProgress) { return; }
-          _drag.inProgress = false;
-          if (self.target_temperature !== _drag.startTemperature) {
-            if (typeof options.onSetTargetTemperature === 'function') {
-              options.onSetTargetTemperature(self.target_temperature);
-            }
-          }
-        }
-
-        function dragMove(ev) {
-          ev.preventDefault();
-          if (!_drag.inProgress) { return; }
-          const evPos = eventPosition(ev);
-          const dy = _drag.startPoint[1] - evPos[1];
-          const dx = evPos[0] - _drag.startPoint[0];
-          let dxy;
-          if (_drag.lockAxis === 'x') {
-            dxy = dx;
-          } else if (_drag.lockAxis === 'y') {
-            dxy = dy;
-          } else if (Math.abs(dy) > properties.dragLockAxisDistance) {
-            _drag.lockAxis = 'y';
-            dxy = dy;
-          } else if (Math.abs(dx) > properties.dragLockAxisDistance) {
-            _drag.lockAxis = 'x';
-            dxy = dx;
-          } else {
-            dxy = (Math.abs(dy) > Math.abs(dx)) ? dy : dx;
-          }
-          const dValue = (dxy * getSizeRatio()) / (options.diameter) * properties.rangeValue;
-          self.target_temperature = roundHalf(_drag.startTemperature + dValue);
-        }
-
-        svg.addEventListener('mousedown', dragStart);
-        svg.addEventListener('touchstart', dragStart);
-
-        svg.addEventListener('mouseup', dragEnd);
-        svg.addEventListener('mouseleave', dragEnd);
-        svg.addEventListener('touchend', dragEnd);
-
-        svg.addEventListener('mousemove', dragMove);
-        svg.addEventListener('touchmove', dragMove);
-        //
-*/

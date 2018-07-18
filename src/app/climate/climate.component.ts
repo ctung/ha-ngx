@@ -22,8 +22,8 @@ export class ClimateComponent implements OnInit {
 
   options = {
     diameter: 400,
-    minValue: 55,
-    maxValue: 80,
+    minValue: 65,
+    maxValue: 75,
     numTicks: 100,
   };
 
@@ -62,10 +62,4 @@ export class ClimateComponent implements OnInit {
     this.state.next(this._state);
     // console.log(e);
   }
-
-  xToTemp(x: number) {
-    return x / window.innerWidth * (this.options.maxValue - this.options.minValue) + this.options.minValue;
-  }
-
-
 }
