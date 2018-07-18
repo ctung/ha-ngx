@@ -20,8 +20,7 @@ declare var Snap: any;
 
 @Component({
   selector: 'app-nest-dial',
-  templateUrl: './nest-dial.component.html',
-  styleUrls: ['./nest-dial.component.scss']
+  template: '<svg id="{{ nestId }}" width="100%" height="100%"></svg>'
 })
 export class NestDialComponent implements OnInit, AfterViewInit {
   @Input() options: Options;

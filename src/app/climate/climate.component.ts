@@ -16,7 +16,7 @@ export class ClimateComponent implements OnInit {
     away: false,
     has_leaf: false,
     hvac_state: 'cooling',
-    ambient_temperature: 75.5,
+    ambient_temperature: 72.5,
     target_temperature: 70.5
   };
 
@@ -54,10 +54,12 @@ export class ClimateComponent implements OnInit {
   onMove(e) {
     const temp = e[2] / window.innerWidth * (this.options.maxValue - this.options.minValue) + this.options.minValue;
     this._state.target_temperature = Math.round(temp * 2) / 2;
-    if (this._state.target_temperature > this._state.ambient_temperature) {
+    if (this._state.target_temperature > this._state.ambient_temperature + 1) {
       this._state.hvac_state = 'heating';
-    } else {
+    } else if (this._state.target_temperature < this._state.ambient_temperature - 1) {
       this._state.hvac_state = 'cooling';
+    } else {
+      this._state.hvac_state = 'off';
     }
     this.state.next(this._state);
     // console.log(e);
