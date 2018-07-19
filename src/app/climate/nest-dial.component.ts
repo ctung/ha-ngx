@@ -14,6 +14,7 @@ interface State {
   hvac_state: string;
   ambient_temperature: number;
   target_temperature: number;
+  inProgress: boolean;
 }
 
 declare var Snap: any;
@@ -29,7 +30,6 @@ export class NestDialComponent implements OnInit, AfterViewInit {
   @Output() onstart = new EventEmitter<any>();
   @Output() onend = new EventEmitter<any>();
   localState: State;
-  inProgress = false;
 
   dial: any;
   tickArray: any;
@@ -96,20 +96,14 @@ export class NestDialComponent implements OnInit, AfterViewInit {
   }
 
   onMove(dx, dy, x, y, e) {
-    if (this.inProgress) {
+    if (this.localState.inProgress) {
       this.onmove.emit([dx, dy, x, y, e]);
     }
   }
   onStart(x, y, e) {
-    setTimeout(() => {
-      this.dial.addClass('dial--edit');
-      this.inProgress = true;
-      this.onstart.emit([x, y, e]);
-    }, 1000);
+    this.onstart.emit([x, y, e]);
   }
   onEnd(x, y, e) {
-    this.dial.removeClass('dial--edit');
-    this.inProgress = false;
     this.onend.emit([x, y, e]);
   }
 
@@ -121,6 +115,7 @@ export class NestDialComponent implements OnInit, AfterViewInit {
       this.renderAway();
       this.renderLeaf();
       this.renderHvacState();
+      this.renderRing();
     }
   }
 
@@ -177,6 +172,10 @@ export class NestDialComponent implements OnInit, AfterViewInit {
     const translate = [radius - (leafScale * 100 * 0.5), radius * 1.5];
     this.icoLeaf = this.dial.path(leafDef).transform('t' + translate[0] + ',' + translate[1]);
     this.icoLeaf.addClass('dial__ico__leaf');
+  }
+
+  renderRing() {
+    this.setClass(this.dial, 'dial--edit', this.localState.inProgress);
   }
 
   renderTicks() {

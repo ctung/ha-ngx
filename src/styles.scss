@@ -55,12 +55,12 @@
 		}
 		&--heating {
 			.dial__shape {
-				fill: #E36304;
+				fill: rgb(156, 68, 0);
 			}
 		}
 		&--cooling {
 			.dial__shape {
-				fill: #007AF1;
+				fill: #3f51b5;
 			}
 		}
 	}

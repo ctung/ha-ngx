@@ -17,7 +17,8 @@ export class ClimateComponent implements OnInit {
     has_leaf: false,
     hvac_state: 'cooling',
     ambient_temperature: 72.5,
-    target_temperature: 70.5
+    target_temperature: 70.5,
+    inProgress: false
   };
 
   options = {
@@ -43,16 +44,22 @@ export class ClimateComponent implements OnInit {
       panelClass: 'climate-dialog-container',
       data: this.state
     });
+    setTimeout(() => {
+      this._state.inProgress = true;
+      this.state.next(this._state);
+    }, 1000);
     // console.log(e);
   }
 
   onDragEnd(e) {
     this.dialog.closeAll();
+    this._state.inProgress = false;
+    this.state.next(this._state);
     // console.log(e);
   }
 
   onMove(e) {
-    const temp = e[2] / window.innerWidth * (this.options.maxValue - this.options.minValue) + this.options.minValue;
+    const temp = (window.innerHeight - e[3]) / window.innerHeight * (this.options.maxValue - this.options.minValue) + this.options.minValue;
     this._state.target_temperature = Math.round(temp * 2) / 2;
     if (this._state.target_temperature > this._state.ambient_temperature + 1) {
       this._state.hvac_state = 'heating';

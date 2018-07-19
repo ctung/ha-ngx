@@ -107,7 +107,9 @@ export class LightComponent implements OnInit, OnDestroy {
   }
 
   onMove(dx, dy, x, y, e) {
-    this.brightness.next(dy < 0 ? -1 : Math.min(Math.round(Math.sqrt(dx ** 2 + dy ** 2) / 2), 100));
+    // console.log([y, window.innerHeight * 0.8 - y]);
+    this.brightness.next( Math.min(Math.round(100 * (window.innerHeight * 0.7 - y) / (window.innerHeight * 0.4)), 100));
+    // this.brightness.next(dy < 0 ? -1 : Math.min(Math.round(Math.sqrt(dx ** 2 + dy ** 2) / 2), 100));
   }
 
   ngOnDestroy() {
